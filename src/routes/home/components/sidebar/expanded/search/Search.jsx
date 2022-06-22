@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Select from "react-select";
-import { STANDARD_DROPDOWN_STYLES } from "../../../../../../contants";
+import { STANDARD_DROPDOWN_STYLES } from "../../../../../../constants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
