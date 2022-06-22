@@ -11,9 +11,6 @@ const root = createRoot(container);
 
 root.render(
     <Provider store={store}>
-      {/* <BrowserRouter>
-        <App />
-      </BrowserRouter> */}
       {/* We use HashRouter because of how this app is deployed in production via Spring Boot */}
       <HashRouter>
         <App />

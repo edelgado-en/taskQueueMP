@@ -29,7 +29,7 @@ const classNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
 };
 
-const PageTable = () => {
+const TaskTable = () => {
   const checkbox = useRef();
   const dispatch = useAppDispatch();
   const tasks = useAppSelector(selectTasks);
@@ -298,4 +298,4 @@ const PageTable = () => {
   );
 };
 
-export default PageTable;
+export default TaskTable;

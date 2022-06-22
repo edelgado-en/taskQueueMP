@@ -1,24 +1,25 @@
 import { useEffect, lazy, Suspense } from 'react';
 import './App.css';
-
 import { Routes, Route, Outlet, useLocation, Link } from 'react-router-dom';
-
 import Navigation from './routes/navigation/navigation';
+import { CONTROL_CENTER_LOGIN_URL } from './constants';
+import Login from './routes/login/login';
+import { isUserAuthenticated } from './localstorage';
 
 const Home = lazy(() => import('./routes/home/home'));
-const Counter = lazy(() => import('./features/counter/Counter'));
 
-//if you are in DEV go to /login
-const redirectUrl = 'https://github.com';
+const redirectUrl = process.env.NODE_ENV === 'production' ? CONTROL_CENTER_LOGIN_URL : '/#/login';
 
-const isUserAuthenticated = () => {
+/* const isUserAuthenticated = () => {
   return true; //use existing function
-}
+} */
 
 const Redirect = () => {
   useEffect(() => {
+    console.log('useEffect');
     window.location = redirectUrl;
-  }, []);
+  }, []); 
+
 
   return <h5>Redirecting...</h5>
 }
@@ -29,10 +30,6 @@ const ProtectedRoute = () => {
   }
 
   return <Outlet />
-}
-
-const Login = () => {
-  return <div>Login page</div>
 }
 
 const Footer = () => {
@@ -63,7 +60,6 @@ const App = () => {
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Navigation />}>
                     <Route index element={<Home />} />
-                    <Route path="counter" element={<Counter />}/>
                 </Route>
               </Route>
             </Routes>

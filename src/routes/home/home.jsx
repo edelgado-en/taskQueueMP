@@ -16,12 +16,10 @@ const Home = () => {
       <div className="flex">
         <SideBar />
         <div className="w-full">
-          <div
-            className="mt-1"
-            style={{ marginLeft: isExpanded ? "257px" : "57px" }}
-          >
+          <div className="mt-1" style={{ marginLeft: isExpanded ? "257px" : "57px" }}>
             <ActionBar />
             <TaskTable />
+            {/* pagination here */}
             <div className="p-5"></div>
           </div>
         </div>

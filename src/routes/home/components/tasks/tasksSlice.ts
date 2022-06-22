@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, current, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../../../../app/store";
 import { data } from './tasks-data';
 
@@ -19,6 +19,9 @@ const initialState: TasksState = {
     tasks: data,
     selectedTasks: []
 }
+
+
+
 
 export const TasksSlice = createSlice({
     name: 'tasks',
