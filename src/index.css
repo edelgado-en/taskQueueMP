@@ -15,3 +15,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.pagination {
+  display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
+}
+
+.page-item.active .page-link {
+  z-index: 0;
+  color: #999;
+  background: #f2f4f7;
+  border-color: #f2f4f7; 
+}
+
+.pagination-custom {
+  position: relative;
+  bottom: 4px;
+  left: 20%;
+}
+
+.page-link-custom {
+
+  border-color: black;
+  line-height: 1;
+}
+
+.page-link {
+  line-height: 1;
+}
+
+.page-item {
+  padding: 4px 12px;
+  color: #007bff;
+  border: 1px solid #dee2e6;
+  margin-left: -1px;
+}
