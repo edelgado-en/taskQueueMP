@@ -1,22 +1,18 @@
 import { useEffect, lazy, Suspense } from 'react';
-import './App.css';
 import { Routes, Route, Outlet, useLocation, Link } from 'react-router-dom';
 import Navigation from './routes/navigation/navigation';
 import { CONTROL_CENTER_LOGIN_URL } from './constants';
 import Login from './routes/login/login';
 import { isUserAuthenticated } from './localstorage';
+import './App.css';
+import Footer from './components/footer/footer';
 
 const Home = lazy(() => import('./routes/home/home'));
 
 const redirectUrl = process.env.NODE_ENV === 'production' ? CONTROL_CENTER_LOGIN_URL : '/#/login';
 
-/* const isUserAuthenticated = () => {
-  return true; //use existing function
-} */
-
 const Redirect = () => {
   useEffect(() => {
-    console.log('useEffect');
     window.location = redirectUrl;
   }, []); 
 
@@ -30,16 +26,6 @@ const ProtectedRoute = () => {
   }
 
   return <Outlet />
-}
-
-const Footer = () => {
-  return (
-    <div className="text-center px-3 py-3 text-xs border-t border-gray-300">
-        Copyright &#169; 2003-2021 Demo Corporation. All Rights Reserved. -
-         <Link to="/tpmv2/terms-of-use" className="text-blue-700">Terms of Use.</Link> -
-         <Link to="/tmv2/privacy-policy" className="text-blue-700">Privacy Policy.</Link>
-    </div>
-  )
 }
 
 const Fallback = () => {

@@ -26,6 +26,7 @@ const Login = () => {
         handleLogin(data);
     })
 
+    //TODO: ADD TOAST TO SHOW ERROR WHEN LOGIN FAILS. ADD LOADING SPINNER ON BUTTON TO DISABLE IT
     const handleLogin = async (data: FormValues) => {
         const { userName, password, queue } = data;
 
@@ -159,6 +160,9 @@ const Login = () => {
             <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
               <div className="sm:mx-auto sm:w-full sm:max-w-md mt-48">
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to TMV2</h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                  Development Mode
+                </p>
               </div>
 
               <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

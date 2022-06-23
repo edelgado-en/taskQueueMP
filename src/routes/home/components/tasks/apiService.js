@@ -1,5 +1,5 @@
 import httpService from '../../../../services/httpService';
 
-export const fetchTasks = (requestObject) => {
-    return httpService.post('/tasks/filters?page=0&size=200&sort=id,asc', requestObject);
+export const fetchTasks = (request) => {
+    return httpService.post(`/tasks/filters?page=${request.activePage - 1}&size=${request.pageSize}&sort=id,asc`, request);
 } 

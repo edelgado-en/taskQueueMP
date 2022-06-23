@@ -37,13 +37,13 @@ code {
 }
 
 .page-link-custom {
-
-  border-color: black;
-  line-height: 1;
+  background-color: #fff;
+  border-color: #eff1f5;
 }
 
 .page-link {
-  line-height: 1;
+  background-color: #fff;
+  font-size: 14px;
 }
 
 .page-item {
@@ -51,4 +51,5 @@ code {
   color: #007bff;
   border: 1px solid #dee2e6;
   margin-left: -1px;
+  font-size: 14px;
 }

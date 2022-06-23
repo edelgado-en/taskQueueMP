@@ -1,10 +1,11 @@
 import Dropdown from "../../../../components/dropdown.component";
 
 import { useAppSelector } from "../../../../app/hooks";
-import { selectSelectedTasks } from "../tasks/tasksSlice";
+import { selectSelectedTasks, selectTotalTasks } from "../tasks/tasksSlice";
 
 const ActionBar = () => {
   const selectedTasks = useAppSelector(selectSelectedTasks);
+  const totalTasks = useAppSelector(selectTotalTasks);
 
   return (
     <div
@@ -15,10 +16,10 @@ const ActionBar = () => {
     >
       <div className="md:basis-[20%] sm:basis-[30%]">
         <Dropdown />
-        <span className="text-xs mr-2 ml-2">1,439 Tasks</span>
+        <span className="text-sm mr-2 ml-3">{totalTasks.toLocaleString('en-US')} Tasks</span>
         {selectedTasks.length > 0 && (
           <>
-            <span className="text-xs font-medium text-gray-500">
+            <span className="text-sm font-medium text-gray-500">
               [ {selectedTasks.length} ]
             </span>
           </>
