@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, current, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../../../../app/store";
 import { data } from './tasks-data';
+import * as api from './apiService';
 
 interface Task {
     id: number;
@@ -11,16 +12,25 @@ interface Task {
 interface TaskList extends Array<Task>{}
 
 interface TasksState {
-    tasks: TaskList
-    selectedTasks: TaskList
+    tasks: TaskList;
+    loading: boolean;
+    selectedTasks: TaskList;
 } 
 
 const initialState: TasksState = {
     tasks: data,
+    loading: false,
     selectedTasks: []
 }
 
-
+export const fetchTasks = createAsyncThunk(
+    'tasks/fetchTasks',
+    async (requestObject: any, thunkAPI) => {
+      const response = await api.fetchTasks(requestObject);
+      console.log(response.data);
+      return response.data.content;
+    }
+  )
 
 
 export const TasksSlice = createSlice({
@@ -63,12 +73,28 @@ export const TasksSlice = createSlice({
 
             state.tasks = taskList;
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchTasks.pending, (state, action) => {
+            state.tasks = [];
+            state.loading = true;
+        })
+        .addCase(fetchTasks.fulfilled, (state, action) => {
+            state.loading = false;
+            state.tasks = action.payload;
+        })
+        .addCase(fetchTasks.rejected, (state, action) => {
+            state.tasks = [];
+            state.loading = false;
+        })
     }
 });
 
 export const { setSelectedTasks, addSelectedTask, removeSelectedTask, expandTask, closeTask } = TasksSlice.actions;
 
 export const selectTasks = (state: RootState) => state.tasks.tasks;
+
+export const selectLoading = (state: RootState) => state.tasks.loading;
 
 export const selectSelectedTasks = (state: RootState) => state.tasks.selectedTasks;
 

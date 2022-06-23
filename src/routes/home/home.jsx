@@ -7,8 +7,30 @@ import { useAppSelector } from "../../app/hooks";
 
 import { selectIsExpanded } from "./components/sidebar/sideBarSlice";
 
+import { fetchTasks } from "./components/tasks/tasksSlice";
+import { useEffect } from "react";
+import { useAppDispatch } from "../../app/hooks";
+
 const Home = () => {
   const isExpanded = useAppSelector(selectIsExpanded);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const requestObject = {
+      "filters" : [
+          {
+              "field": "seoMode",
+              "fieldValueRelationship": "=",
+              "value": "0"        
+          }
+      ],
+      page: 0,
+      size: 200,
+      sort: ["id, asc"]
+    }
+
+    dispatch(fetchTasks(requestObject));
+  }, []);
 
   return (
     <>

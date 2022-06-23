@@ -8,7 +8,7 @@ import {
   addSelectedTask,
   removeSelectedTask,
   expandTask,
-  closeTask,
+  closeTask
 } from "./tasksSlice";
 
 import {
@@ -156,7 +156,7 @@ const TaskTable = () => {
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-200 bg-white">
-        {tasks.map((task) => (
+        {tasks && tasks.map((task) => (
           <React.Fragment key={task.id}>
             <tr
               className={
