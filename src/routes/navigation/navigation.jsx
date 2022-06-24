@@ -1,21 +1,32 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import logo from './mp-logo.png';
 
 import { Outlet, Link } from "react-router-dom";
+
+import Select from "react-select";
+
+import { STANDARD_DROPDOWN_STYLES, PAGE_SIZE_OPTIONS } from "../../constants";
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Navigation() {
+  
+  const handlePageSizeChange = (size) => {
+
+  }
+
   return (
     <>
       <Disclosure as="nav" className="bg-white shadow fixed w-full z-50">
         {({ open }) => (
           <>
-            <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-              <div className="relative flex justify-between h-16">
+            <div className="mx-auto px-2 sm:px-6 lg:px-6">
+              <div className="relative flex justify-between" style={{ height: '50px' }}>
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button */}
                   <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -30,35 +41,30 @@ export default function Navigation() {
                 <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex-shrink-0 flex items-center">
                     <img
-                      className="block lg:hidden h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt="Workflow"
+                      className="block w-auto"
+                      style={{ height: '28px' }}
+                      src={logo}
+                      alt="mp-logo"
                     />
-                    <img
-                      className="hidden lg:block h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                      alt="Workflow"
-                    />
+                    <div className="px-3 font-medium text-lg">Translation Manager</div>
+                    <div className="px-1 py-1 rounded uppercase text-xs tracking-wide whitespace-nowrap font-semibold bg-sky-100 text-sky-500">Beta</div>
                   </div>
                   <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <Link
+                    {/* <Link
                       to="/"
                       className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                     >
                       Tasks
-                    </Link>
-                    {/* <Link
-                      to="/stacked"
-                      className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                    >
-                      Stacked
-                    </Link>
-                    <Link
-                      to="/counter"
-                      className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                    >
-                      Counter
                     </Link> */}
+                    <div className="w-48 mt-2 ml-8">
+                        <Select 
+                            maxMenuHeight={160}
+                            styles={STANDARD_DROPDOWN_STYLES}
+                            value={1}
+                            onChange={handlePageSizeChange}
+                            options={PAGE_SIZE_OPTIONS}
+                        />
+                    </div>
                   </div>
                 </div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -73,13 +79,13 @@ export default function Navigation() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="ml-3 relative">
                     <div>
-                      <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none">
                         <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
+                        <div className="w-12 text-center">
+                          <div className="w-10" style={{ lineHeight: '36px',borderRadius: '50%', fontSize: '15px', background: '#686f7a', color: '#fff' }}>
+                            ED
+                          </div>
+                        </div>
                       </Menu.Button>
                     </div>
                     <Transition
