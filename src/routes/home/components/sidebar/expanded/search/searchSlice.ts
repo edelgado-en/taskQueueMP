@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../../../../app/store";
-import { statuses, contractors,
+import { statuses, assignmentStatuses, translationTypes,
      TATStatuses, flags, contentTypes,
       priorities, internalReviewers, requestedBy
 } from './dropdown-data';
 
-interface DropdownOption {
+export interface DropdownOption {
     value: number,
     label: string
 }
@@ -18,8 +18,10 @@ interface DropdownPayload {
 interface SearchState {
     statuses: Array<DropdownOption>,
     selectedStatus: DropdownOption,
-    contractors: Array<DropdownOption>,
-    selectedContractor: DropdownOption,
+    assignmentStatuses: Array<DropdownOption>,
+    selectedAssignmentStatus: DropdownOption,
+    translationTypes: Array<DropdownOption>,
+    selectedTranslationType: DropdownOption,
     TATStatuses: Array<DropdownOption>,
     selectedTATStatus: DropdownOption,
     flags: Array<DropdownOption>,
@@ -38,15 +40,17 @@ interface SearchState {
 
 const initialState: SearchState = {
     statuses,
-    contractors,
+    assignmentStatuses,
+    translationTypes,
     TATStatuses,
     flags,
     contentTypes,
     priorities,
     internalReviewers,
     requestedBy,
+    selectedTranslationType: translationTypes[0],
     selectedStatus: statuses[0],
-    selectedContractor: contractors[0],
+    selectedAssignmentStatus: assignmentStatuses[0],
     selectedTATStatus: TATStatuses[0],
     selectedContentType: contentTypes[0],
     selectedPriority: priorities[0],

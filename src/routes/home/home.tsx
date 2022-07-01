@@ -16,15 +16,13 @@ const Home = () => {
 
   useEffect(() => {
     const requestObject = {
-      "filters" : [
-          {
-              "field": "seoMode",
-              "fieldValueRelationship": "=",
-              "value": "0"        
-          }
-      ],
+      seoMode: false,
       pageSize: pageSize.value,
-      activePage
+      activePage,
+      assignmentStatusIdSelected: -2,
+      translationStatusIdSelected: -1,
+      contentTypeIdSelected: -1,
+      translationTypeIdSelected: -1
     }
 
     dispatch(fetchTasks(requestObject));
@@ -33,7 +31,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="mt-16"></div>
+      <div style={{ marginTop: '50px' }}></div>
       <div className="flex">
         <SideBar />
         <div className="w-full">

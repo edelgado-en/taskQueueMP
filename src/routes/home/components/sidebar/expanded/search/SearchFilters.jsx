@@ -13,15 +13,20 @@ import {
   selectFilters
 } from "./searchSlice";
 
+import { fetchTasks, selectPageSize } from '../../../tasks/tasksSlice';
+
 
 const Search = () => {
+  const pageSize = useAppSelector(selectPageSize);
   const dispatch = useAppDispatch();
   
   const { 
     statuses,
     selectedStatus,
-    contractors,
-    selectedContractor,
+    assignmentStatuses,
+    selectedAssignmentStatus,
+    translationTypes,
+    selectedTranslationType,
     flags,
     selectedFlag,
     TATStatuses,
@@ -71,9 +76,24 @@ const Search = () => {
 
   const handleSearch = () => {
     console.log(selectedStatus);
-    console.log(selectedContractor);
+    console.log(selectedAssignmentStatus);
     console.log(startQueueDate); //this returns timestamp (number) which you need to convert to date OR null
     console.log(endQueueDate);//this returns timestamp (number) which you need to convert to date OR null
+
+    console.log(selectedTranslationType);
+
+    const requestObject = {
+      seoMode: false,
+      pageSize: pageSize.value,
+      activePage: 1,
+      assignmentStatusIdSelected: selectedAssignmentStatus.value,
+      translationStatusIdSelected: selectedStatus.value,
+      contentTypeIdSelected: selectedContentType.value,
+      translationTypeIdSelected: selectedTranslationType.value
+    }
+
+    dispatch(fetchTasks(requestObject))
+
   };
 
   return (
@@ -81,7 +101,7 @@ const Search = () => {
       <div className="mt-2 px-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
         <div>
           <label className="block text-xs font-medium text-gray-700 mb-1 mt-2">
-            Task Status
+            Translation Status
           </label>
           <Select
             maxMenuHeight={850}
@@ -92,14 +112,25 @@ const Search = () => {
           />
 
           <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-            Contractors
+            Assignment Status
           </label>
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
-            value={selectedContractor}
-            onChange={(option) => handleChange(option, "selectedContractor")}
-            options={contractors}
+            value={selectedAssignmentStatus}
+            onChange={(option) => handleChange(option, "selectedAssignmentStatus")}
+            options={assignmentStatuses}
+          />
+
+          <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
+            Translation Types
+          </label>
+          <Select
+            maxMenuHeight={850}
+            styles={STANDARD_DROPDOWN_STYLES}
+            value={selectedTranslationType}
+            onChange={(option) => handleChange(option, "selectedTranslationType")}
+            options={translationTypes}
           />
 
           <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
@@ -136,7 +167,8 @@ const Search = () => {
             type="text"
             name="ids"
             id="ids"
-            className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md"
+            className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500
+                       block w-full text-xs border-gray-300 rounded-md"
             placeholder="1,2,3,4,5..."
           />
 
@@ -151,17 +183,20 @@ const Search = () => {
             type="text"
             name="urls"
             id="urls"
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md"
+            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500
+                       block w-full text-xs border-gray-300 rounded-md"
             placeholder="url1,url2,url3..."
           />
 
           <label className="block text-xs font-medium text-gray-700 mt-3">
             Queue Start Date
           </label>
+          
           <DatePicker
             selected={startQueueDate == null ? null : new Date(startQueueDate)}
             showTimeSelect
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md p-2"
+            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full
+                       text-xs border-gray-300 rounded-md p-2"
             onChange={(date) => handleDateChange('start', date)}
           />
 
@@ -182,7 +217,8 @@ const Search = () => {
               <DatePicker
                 selected={endQueueDate == null ? null : new Date(endQueueDate)}
                 showTimeSelect
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md p-2"
+                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs
+                         border-gray-300 rounded-md p-2"
                 onChange={(date) => handleDateChange('end', date)}
               />
 
@@ -243,14 +279,18 @@ const Search = () => {
         <button
           onClick={handleResetFormFields}
           type="button"
-          className="mr-3 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="mr-3 inline-flex items-center px-2.5 py-1.5 border
+                   border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700
+                    bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Add Pref Search
         </button>
         <button
           onClick={handleSearch}
           type="button"
-          className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex items-center px-2.5 py-1.5 border border-transparent
+                     text-xs font-medium rounded shadow-sm text-white bg-indigo-600
+                     hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Search
         </button>

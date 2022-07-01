@@ -50,47 +50,7 @@ const users = [
         id: 10,
         userName: 'agironacci',
         name: 'Alejandra Gironacci'
-    }/* ,
-    {
-        id: 11,
-        userName: 'agironacci',
-        name: 'Alejandra Gironacci'
-    },
-    {
-        id: 12,
-        userName: 'agironacci',
-        name: 'Alejandra Gironacci'
-    },
-    {
-        id: 13,
-        userName: 'agironacci',
-        name: 'Alejandra Gironacci'
-    },
-    {
-        id: 14,
-        userName: 'agironacci',
-        name: 'Alejandra Gironacci'
-    },
-    {
-        id: 15,
-        userName: 'agironacci',
-        name: 'Alejandra Gironacci'
-    },
-    {
-        id: 16,
-        userName: 'agironacci',
-        name: 'Alejandra Gironacci'
-    },
-    {
-        id: 17,
-        userName: 'agironacci',
-        name: 'Alejandra Gironacci'
-    },
-    {
-        id: 18,
-        userName: 'agironacci',
-        name: 'Alejandra Gironacci'
-    }  */
+    }
     
 ]
   
@@ -99,7 +59,8 @@ const UsersStats = () => {
       <nav className="h-full overflow-y-auto py-7">
         <ul role="list" className="relative z-0 divide-y divide-gray-200">
             <li className="bg-rose-50 my-2">
-                <div className="bg-rose-50 text-rose-700  relative px-3 py-3 flex items-center space-x-3 hover:bg-rose-100 focus-within:ring-2 focus-within:ring-inset">
+                <div className="bg-rose-50 text-rose-700  relative px-3 py-3 flex items-center
+                                space-x-3 hover:bg-rose-100 focus-within:ring-2 focus-within:ring-inset">
                     <div className="basis-[70%] min-w-0">
                         <a href="#" className="focus:outline-none">
                         <span className="absolute inset-0" />
@@ -115,7 +76,8 @@ const UsersStats = () => {
             </li>
             {users.map((user) => (
             <li key={user.id} className="bg-white my-2">
-                <div className="relative px-3 py-3 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                <div className="relative px-3 py-3 flex items-center space-x-3 hover:bg-gray-50
+                                 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
                     <div className="basis-[70%] min-w-0">
                         <a href="#" className="focus:outline-none">
                         <span className="absolute inset-0" />

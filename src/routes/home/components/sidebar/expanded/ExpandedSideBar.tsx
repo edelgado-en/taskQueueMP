@@ -6,18 +6,18 @@ import {
   StarIcon,
 } from "@heroicons/react/solid";
 
-import { selectActiveTab, setActiveTab, toggleExpanded } from "../sideBarSlice";
+import { selectActiveTab, setActiveTab, toggleExpanded, Tab } from "../sideBarSlice";
 import { useAppSelector, useAppDispatch } from "../../../../../app/hooks";
 
 import LSPDashboard from "./lsp/LspDashboard";
 import UserStats from "./user/UserStats";
-import Search from "./search/Search";
+import Search from "./search/SearchFilters";
 
 const ExpandedSideBar = () => {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector(selectActiveTab);
 
-  const handleSetActiveTab = (tab) => {
+  const handleSetActiveTab = (tab: Tab) => {
     dispatch(setActiveTab(tab));
   };
 
@@ -32,11 +32,11 @@ const ExpandedSideBar = () => {
           <div className="border-b border-gray-200">
             <nav className="flex space-x-5">
               <span
-                onClick={() => handleSetActiveTab("search")}
+                onClick={() => handleSetActiveTab(Tab.Search)}
                 className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
                               font-medium text-xs
                               ${
-                                activeTab === "search"
+                                activeTab === Tab.Search
                                   ? "border-indigo-500 text-indigo-600"
                                   : "hover:text-gray-700 hover:border-gray-300"
                               }
@@ -46,11 +46,11 @@ const ExpandedSideBar = () => {
               </span>
 
               <span
-                onClick={() => handleSetActiveTab("lsp")}
+                onClick={() => handleSetActiveTab(Tab.Lsp)}
                 className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
                              font-medium text-xs border-transparent
                               ${
-                                activeTab === "lsp"
+                                activeTab === Tab.Lsp
                                   ? "border-indigo-500 text-indigo-600"
                                   : "hover:text-gray-700 hover:border-gray-300"
                               }
@@ -60,11 +60,11 @@ const ExpandedSideBar = () => {
               </span>
 
               <span
-                onClick={() => handleSetActiveTab("users")}
+                onClick={() => handleSetActiveTab(Tab.Users)}
                 className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
                     font-medium text-xs border-transparent
                      ${
-                       activeTab === "users"
+                       activeTab === Tab.Users
                          ? "border-indigo-500 text-indigo-600"
                          : "hover:text-gray-700 hover:border-gray-300"
                      }
@@ -74,11 +74,11 @@ const ExpandedSideBar = () => {
               </span>
 
               <span
-                onClick={() => handleSetActiveTab("preferred")}
+                onClick={() => handleSetActiveTab(Tab.PreferredSearch)}
                 className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
                     font-medium text-xs border-transparent
                      ${
-                       activeTab === "preferredSearches"
+                       activeTab === Tab.PreferredSearch
                          ? "border-indigo-500 text-indigo-600"
                          : "hover:text-gray-700 hover:border-gray-300"
                      }
@@ -97,11 +97,11 @@ const ExpandedSideBar = () => {
         </div>
       </div>
 
-      {activeTab === "search" && <Search />}
+      {activeTab === Tab.Search && <Search />}
 
-      {activeTab === "lsp" && <LSPDashboard />}
+      {activeTab === Tab.Lsp && <LSPDashboard />}
 
-      {activeTab === "users" && <UserStats />}
+      {activeTab === Tab.Users && <UserStats />}
     </div>
   );
 };

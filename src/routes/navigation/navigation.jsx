@@ -14,7 +14,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navigation() {
+const Navigation = () => {
   
   const handlePageSizeChange = (size) => {
 
@@ -25,7 +25,7 @@ export default function Navigation() {
       <Disclosure as="nav" className="bg-white shadow fixed w-full z-50">
         {({ open }) => (
           <>
-            <div className="mx-auto px-2 sm:px-6 lg:px-6">
+            <div className="mx-auto pl-3 pr-2 sm:pr-6 lg:pr-6">
               <div className="relative flex justify-between" style={{ height: '50px' }}>
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button */}
@@ -175,3 +175,5 @@ export default function Navigation() {
     </>
   );
 }
+
+export default Navigation;

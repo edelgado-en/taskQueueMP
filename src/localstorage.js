@@ -1,6 +1,4 @@
 
-
-
 /**
  * Gets the TextBench session information from the sessionStorage. This function gets
  * executed in production mode only. During the development, we set all the session info

@@ -1,16 +1,27 @@
 
-
+//TODO: This should be fetch from the backend instead of hardcoding here. Create a new endpoint specific to this screen where you can get all
+// form information needed for first load.
 export const statuses = [
     { value: -1, label: "All" },
     { value: 1, label: "New" },
-    { value: 2, label: "In Progress" },
-    { value: 3, label: "Completed" }
+    { value: 2, label: "Translated" },
+    { value: 3, label: "Contractor Proofed" },
+    { value: 5, label: "Active" }
 ];
   
-export const contractors = [
+export const assignmentStatuses = [
+    { value: -2, label: "All" },
+    { value: -1, label: "Assigned" },
+    { value: 0, label: "Not Assigned" },
+    { value: 1, label: "Pro Translating" },
+    { value: 2, label: "MLG International" }
+];
+
+export const translationTypes = [
     { value: -1, label: "All" },
-    { value: 1, label: "Contractor 1" },
-    { value: 2, label: "Contractor 2" }
+    { value: 1, label: "Enterprise Translation (REG)" },
+    { value: 2, label: "Professional Translation (OST, OSO)" },
+    { value: 3, label: "Machine Translation (MT, MTO)" }
 ];
 
 export const TATStatuses = [
@@ -30,9 +41,14 @@ export const flags = [
 
 export const contentTypes = [
     { value: -1, label: "All" },
-    { value: 1, label: "HTML" },
-    { value: 2, label: "JSON" },
-    { value: 3, label: "XML" }
+    { value: 0, label: "HTML" },
+    { value: 1, label: "XML" },
+    { value: 2, label: "JS" },
+    { value: 3, label: "CSS" },
+    { value: 4, label: "JSON" },
+    { value: 5, label: "AJAX" },
+    { value: 6, label: "AMF" },
+
 ]
 
 export const priorities = [

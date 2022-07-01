@@ -1,10 +1,8 @@
 import { ArrowSmDownIcon, ArrowSmUpIcon } from "@heroicons/react/solid";
-
 import { useState } from "react";
-
 import Select from "react-select";
-
 import { STANDARD_DROPDOWN_STYLES } from "../../../../../../constants";
+import { DropdownOption } from '../search/searchSlice';
 
 const stats = [
   {
@@ -37,17 +35,25 @@ const stats = [
   },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+//TODO: This must be get from the backend on intiial render because some database have different contractors. Create a new 
+//endpoiint to fetch form related values, not just this list.
 const options = [
   { value: 1, label: "ProTranslating" },
   { value: 2, label: "MLG International" },
 ];
 
-export default function Example() {
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+const LspDashboard = () => {
+  //TODO: instead of using any use DropdownOption
+  const [selectedOption, setSelectedOption] = useState<any>(options[0]);
+
+  const handleChange = (selectedOption: any) => {
+    setSelectedOption(selectedOption);
+  }
+
 
   return (
     <div className="mt-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
@@ -58,7 +64,7 @@ export default function Example() {
         maxMenuHeight={850}
         styles={STANDARD_DROPDOWN_STYLES}
         defaultValue={selectedOption}
-        onChange={setSelectedOption}
+        onChange={(option) => handleChange(option)}
         options={options}
       />
 
@@ -170,3 +176,5 @@ export default function Example() {
     </div>
   );
 }
+
+export default LspDashboard;

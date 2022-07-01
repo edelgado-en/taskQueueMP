@@ -23,17 +23,15 @@ const PaginationContainer = () => {
     const handlePageChange = (page) => {
         dispatch(setActivePage(page));
 
+        //TODO: get from slice
+
         const requestObject = {
-            "filters" : [
-                {
-                    "field": "seoMode",
-                    "fieldValueRelationship": "=",
-                    "value": "0"        
-                }
-            ],
             pageSize: pageSize.value,
-            activePage: page
-          }
+            activePage: page,
+            contractorIdSelected: -1,
+            translationStatusIdSelected: -1,
+            translationTypeIdSelected: -1
+        }
 
         dispatch(fetchTasks(requestObject))
     }
@@ -42,13 +40,7 @@ const PaginationContainer = () => {
         dispatch(setPageSize(size));
 
         const requestObject = {
-            "filters" : [
-                {
-                    "field": "seoMode",
-                    "fieldValueRelationship": "=",
-                    "value": "0"        
-                }
-            ],
+            seoMode: false,
             pageSize: size.value,
             activePage
           }

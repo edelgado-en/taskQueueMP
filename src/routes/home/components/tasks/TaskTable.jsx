@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState, useRef } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
-import {
+import tasksSlice, {
   selectTasks,
   selectSelectedTasks,
   setSelectedTasks,
@@ -21,10 +21,14 @@ import {
   PencilAltIcon,
   TrashIcon,
   CheckIcon,
+  TranslateIcon,
+  EyeIcon,
+  ReplyIcon
 } from "@heroicons/react/solid";
 
 import TaskActivity from "./activity/TaskActivity";
 import TaskComment from "./comment/TaskComment";
+import Spinner from '../../../../components/spinner/Spinner';
 
 const classNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
@@ -91,10 +95,7 @@ const TaskTable = () => {
     {/* TODO: Add a message when there are no results */}
     {loading ?
       <div className="text-center pt-64">
-          <svg role="status" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-              <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-          </svg>
+          <Spinner />
       </div>
       :
       <table
@@ -193,6 +194,12 @@ const TaskTable = () => {
                   checked={selectedTasks.includes(task)}
                   onChange={(e) => handleTaskCheckbox(e, task)}
                 />
+                <span
+                  className="ml-4 flex-shrink-0 font-semibold text-gray-500"
+                  style={{ fontSize: "10px" }}
+                >
+                  {task.queueTypeFlagText}
+                </span>
               </td>
               <td
                 className={classNames(
@@ -202,62 +209,76 @@ const TaskTable = () => {
                     : "text-gray-900"
                 )}
               >
-                <span className="ml-1 font-medium text-indigo-600 truncate cursor-pointer">
+                <span className="ml-1 font-medium text-sky-600 truncate cursor-pointer">
                   {task.id}
                 </span>
-                <span
-                  className="ml-1 flex-shrink-0 font-normal text-gray-500"
-                  style={{ fontSize: "10px" }}
-                >
-                  HTML
-                </span>
+                
               </td>
               <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
                 <div className="flex items-center text-sm text-gray-500">
-                  <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                  <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                  <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                  <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                  
+                  {task.onHold && <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-500" />}
+
+                  {task.specialEdit && <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />}
+
+                  {task.errorPage && <ReplyIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
+                  
+{/*                   <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                  <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" /> */}
                 </div>
               </td>
               <td
-                className={`whitespace-nowrap px-3 py1.5 text-xs text-gray-500 text-center ${
-                  task.translationStatus === "new"
-                    ? "bg-green-100 "
-                    : task.translationStatus === "in progress"
-                    ? "bg-blue-100"
-                    : ""
-                }`}
+                className={`whitespace-nowrap px-3 py1.5 text-xs text-gray-500 text-center`}
               >
                 <span className="px-1.5 inline-flex text-xs leading-5 text-gray-500">
-                  {task.translationStatus}
+                  {task.textTranslationStatus === "Active" && <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />}
+                  {task.textTranslationStatus === "Translated" && <TranslateIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
+                  {task.textTranslationStatus === "Cont. Proofed" && <EyeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
+                  {task.textTranslationStatus === "New" && <span style={{ background: '#64748b', padding: '1px 3px', borderRadius: '2px', color: 'white', fontSize: '8px' }}>NEW</span>}
+                  {task.textTranslationStatus === "N/A" && <span>NA</span>}
+                  
                 </span>
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
-                <div className="text-xs">{task.overallPercentageTextTranslated}%</div>
+                <div className="text-xs">{task.percentageTextTranslated}%</div>
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <div className="text-xs">5,678</div>
+                <div className="text-xs">{task.totalWords.toLocaleString('en-US')}</div>
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs ">
                 <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <span className="text-xs">04-29 08:58 AM</span>
-                <span className="ml-2">(TS)</span>
+                <span className="text-xs">{task.receiptDate}</span>
+                {task.queuedBy.length > 0 && <span className="ml-2">({task.queuedBy})</span>}
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <span className="text-xs">04-29 08:58 AM</span>
-                <span className="ml-2">(AP)</span>
+                <span className="text-xs">{task.lastUpdatedDate}</span>
+                {task.autoParsed && <span className="ml-2">(AP)</span>}
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <span className="text-xs">04-29 08:58 AM</span>
+                <span className="text-xs">{task.assignedDate}</span>
                 <div className="text-xs inline-block ml-1">
-                  <span className="font-semibold bg-sky-100  px-1">CT1</span>{" "}
-                  <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
-                  <span>edelgado</span>{" "}
-                  <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
-                  <span>adeberry</span>
+                  {task.assignedContractor ?
+                      <>
+                        <span className="font-semibold bg-sky-100  px-1">{task.assignedContractor}</span>{" "}
+                      </>
+                      :
+                      <span className="hidden px-1">PTS</span>
+                  }
+                  {task.assignedTranslator &&
+                    <>
+                      <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
+                      <span>{task.assignedTranslator}</span>{" "}
+                    </>
+                  
+                  }
+                  {task.assignedInternalReviewer &&
+                    <>
+                      <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
+                      <span>{task.assignedInternalReviewer}</span>
+                    </>
+                  }
                 </div>
               </td>
               <td>

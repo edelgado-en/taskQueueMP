@@ -100,8 +100,8 @@ export const TasksSlice = createSlice({
         })
         .addCase(fetchTasks.fulfilled, (state, action) => {
             state.loading = false;
-            state.tasks = action.payload.content;
-            state.totalTasks = action.payload.totalElements;
+            state.tasks = action.payload.tasks;
+            state.totalTasks = action.payload.totalTasks;
         })
         .addCase(fetchTasks.rejected, (state, action) => {
             state.tasks = [];

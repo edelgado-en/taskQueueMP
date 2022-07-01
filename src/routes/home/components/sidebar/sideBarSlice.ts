@@ -4,7 +4,7 @@ import { RootState } from '../../../../app/store';
 export enum Tab {
     Search = "search",
     Lsp = "lsp",
-    USers = "users",
+    Users = "users",
     PreferredSearch = "preferred"
 }
 
