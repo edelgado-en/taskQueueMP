@@ -5,12 +5,15 @@ import {
   BriefcaseIcon,
   StarIcon,
   DocumentIcon,
+  CogIcon
 } from "@heroicons/react/solid";
 
 import { toggleExpanded, setActiveTab } from "../sideBarSlice";
 import { useAppDispatch } from "../../../../../app/hooks";
 
 import ReactTooltip from "react-tooltip";
+
+import { Tab } from '../sideBarSlice'
 
 const SlimSideBar = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +22,8 @@ const SlimSideBar = () => {
     dispatch(toggleExpanded());
     dispatch(setActiveTab(tab));
   };
+
+  //TODO: create a function for LogoutIcon to use activeTab to open that one
 
   return (
     <div className="fixed flex bg-gray-100 min-h-screen flex-col z-50 border-r-2 p-4 w-14">
@@ -36,7 +41,7 @@ const SlimSideBar = () => {
         data-tip="Expand"
         data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer"
-        onClick={() => handleSideBarExpanded("search")}
+        onClick={() => handleSideBarExpanded(Tab.Search)} /* TODO: This needs to remember your choice and open that tab */
       />
 
       <SearchIcon
@@ -44,7 +49,7 @@ const SlimSideBar = () => {
         data-tip="Search"
         data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={() => handleSideBarExpanded("search")}
+        onClick={() => handleSideBarExpanded(Tab.Search)}
       />
 
       <BriefcaseIcon
@@ -52,7 +57,7 @@ const SlimSideBar = () => {
         data-tip="Contractors"
         data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={() => handleSideBarExpanded("lsp")}
+        onClick={() => handleSideBarExpanded(Tab.Lsp)}
       />
 
       <UsersIcon
@@ -60,7 +65,7 @@ const SlimSideBar = () => {
         data-tip="Users"
         data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={() => handleSideBarExpanded("users")}
+        onClick={() => handleSideBarExpanded(Tab.Users)}
       />
 
       <StarIcon
@@ -68,7 +73,7 @@ const SlimSideBar = () => {
         data-tip="Preferred Searches"
         data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={() => handleSideBarExpanded("preferred")}
+        onClick={() => handleSideBarExpanded(Tab.PreferredSearch)}
       />
 
       <DocumentIcon
@@ -76,7 +81,15 @@ const SlimSideBar = () => {
         data-tip="New Text"
         data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={() => handleSideBarExpanded("search")}
+        onClick={() => handleSideBarExpanded(Tab.Search)}
+      />
+
+      <CogIcon
+        data-for="sidebar"
+        data-tip="Settings"
+        data-iscapture="true"
+        className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+        onClick={() => handleSideBarExpanded(Tab.Settings)}
       />
     </div>
   );

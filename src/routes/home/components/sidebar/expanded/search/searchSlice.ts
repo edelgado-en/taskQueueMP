@@ -35,7 +35,8 @@ interface SearchState {
     requestedBy: Array<DropdownOption>,
     selectedRequestedBy: DropdownOption,
     startQueueDate: number | null, //save it as timestamp because Date object are not serializable
-    endQueueDate: number | null
+    endQueueDate: number | null,
+    seoMode: boolean
 }
 
 const initialState: SearchState = {
@@ -58,7 +59,8 @@ const initialState: SearchState = {
     selectedRequestedBy: requestedBy[0],
     selectedFlag: flags[0],
     startQueueDate: null,
-    endQueueDate: null
+    endQueueDate: null,
+    seoMode: false
 }
 
 export const searchSlice = createSlice({

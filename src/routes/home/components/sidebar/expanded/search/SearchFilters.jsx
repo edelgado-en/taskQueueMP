@@ -13,8 +13,7 @@ import {
   selectFilters
 } from "./searchSlice";
 
-import { fetchTasks, selectPageSize } from '../../../tasks/tasksSlice';
-
+import { fetchTasks, selectPageSize, setActivePage } from '../../../tasks/tasksSlice';
 
 const Search = () => {
   const pageSize = useAppSelector(selectPageSize);
@@ -75,12 +74,7 @@ const Search = () => {
   }
 
   const handleSearch = () => {
-    console.log(selectedStatus);
-    console.log(selectedAssignmentStatus);
-    console.log(startQueueDate); //this returns timestamp (number) which you need to convert to date OR null
-    console.log(endQueueDate);//this returns timestamp (number) which you need to convert to date OR null
-
-    console.log(selectedTranslationType);
+    dispatch(setActivePage(1));
 
     const requestObject = {
       seoMode: false,

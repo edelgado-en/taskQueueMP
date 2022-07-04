@@ -6,23 +6,44 @@ import Pagination from "../../components/pagination/pagination";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectIsExpanded } from "./components/sidebar/sideBarSlice";
 import { fetchTasks, selectPageSize, selectActivePage } from "./components/tasks/tasksSlice";
+import { selectFilters } from "./components/sidebar/expanded/search/searchSlice";
+
 import { useEffect } from "react";
 
 const Home = () => {
   const isExpanded = useAppSelector(selectIsExpanded);
   const pageSize = useAppSelector(selectPageSize);
   const activePage = useAppSelector(selectActivePage);
+
+  const { 
+    selectedStatus,
+    selectedAssignmentStatus,
+    selectedTranslationType,
+    selectedFlag,
+    selectedTATStatus,
+    selectedContentType,
+    selectedPriority,
+    selectedInternalReviewer,
+    selectedRequestedBy,
+    startQueueDate,
+    endQueueDate
+
+  } = useAppSelector(selectFilters);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    
+    //read from searchSlice
+
     const requestObject = {
+      assignmentStatusIdSelected: selectedAssignmentStatus.value,
+      translationStatusIdSelected: selectedStatus.value,
+      contentTypeIdSelected: selectedContentType.value,
+      translationTypeIdSelected: selectedTranslationType.value,
       seoMode: false,
       pageSize: pageSize.value,
-      activePage,
-      assignmentStatusIdSelected: -2,
-      translationStatusIdSelected: -1,
-      contentTypeIdSelected: -1,
-      translationTypeIdSelected: -1
+      activePage
     }
 
     dispatch(fetchTasks(requestObject));

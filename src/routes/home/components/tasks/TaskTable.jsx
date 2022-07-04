@@ -98,16 +98,12 @@ const TaskTable = () => {
 
   return (
     <>
-    {/* TODO: Add a message when there are no results */}
-    {loading ?
-      <div className="text-center pt-64">
-          <Spinner />
-      </div>
-      :
-      <table
-      className="divide-y divide-gray-300 w-full"
-      style={{ marginTop: "66px" }}
-    >
+    { loading && <div className="text-center pt-64"><Spinner /></div> }
+
+    { (!loading && tasks.length == 0 ) && <div className="text-center pt-64">TODO: Add component for No tasks found message</div> }
+
+    { (!loading && tasks.length > 0) && 
+      <table className="divide-y divide-gray-300 w-full" style={{ marginTop: "66px" }}>
       <thead className="bg-gray-50">
         <tr>
           <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
@@ -258,7 +254,7 @@ const TaskTable = () => {
                 {relativeTime ? 
                   <ReactTimeAgo date={task.receiptDate} locale="en-US" timeStyle="twitter" />
                   :
-                  <span className="text-xs">{task.receiptDateShort}</span>
+                  <span className="text-xs">{task.receiptDate}</span>
                 }
 
                 {task.queuedBy.length > 0 && <span className="ml-2">({task.queuedBy})</span>}
@@ -278,7 +274,7 @@ const TaskTable = () => {
                   relativeTime ?
                   <ReactTimeAgo date={task.lastUpdatedDate} locale="en-US" timeStyle="twitter" />
                   :
-                  <span className="text-xs">{task.assignedDate}</span>
+                  <span className="text-xs">{task.assignedDateShort}</span>
                 }
 
                 <div className="text-xs inline-block ml-1">
@@ -355,10 +351,8 @@ const TaskTable = () => {
           </React.Fragment>
         ))}
       </tbody>
-    </table>
+      </table>
     }
-    
- {/*     */}
     </>
   );
 };
