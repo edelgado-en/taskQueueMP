@@ -19,9 +19,9 @@ export const assignmentStatuses = [
 
 export const translationTypes = [
     { value: -1, label: "All" },
-    { value: 1, label: "Enterprise Translation (REG)" },
-    { value: 2, label: "Professional Translation (OST, OSO)" },
-    { value: 3, label: "Machine Translation (MT, MTO)" }
+    { value: 0, label: "Enterprise Translation (REG)" },
+    { value: 1, label: "Professional Translation (OST, OSO)" },
+    { value: 4, label: "Machine Translation (MT, MTO)" }
 ];
 
 export const TATStatuses = [

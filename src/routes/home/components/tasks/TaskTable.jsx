@@ -1,7 +1,8 @@
 import React, { useLayoutEffect, useState, useRef } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
-import tasksSlice, {
+
+import {
   selectTasks,
   selectSelectedTasks,
   setSelectedTasks,
@@ -11,6 +12,8 @@ import tasksSlice, {
   expandTask,
   closeTask
 } from "./tasksSlice";
+
+import { selectRelativeTime } from "../sidebar/expanded/settings/settingsSlice";
 
 import {
   CalendarIcon,
@@ -26,6 +29,8 @@ import {
   ReplyIcon
 } from "@heroicons/react/solid";
 
+import ReactTimeAgo from 'react-time-ago'
+
 import TaskActivity from "./activity/TaskActivity";
 import TaskComment from "./comment/TaskComment";
 import Spinner from '../../../../components/spinner/Spinner';
@@ -40,8 +45,9 @@ const TaskTable = () => {
   const tasks = useAppSelector(selectTasks);
   const selectedTasks = useAppSelector(selectSelectedTasks);
   const loading = useAppSelector(selectLoading);
+  const relativeTime = useAppSelector(selectRelativeTime);
 
-  console.log(tasks);
+  //console.log(tasks);
 
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
@@ -249,15 +255,32 @@ const TaskTable = () => {
                 <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <span className="text-xs">{task.receiptDate}</span>
+                {relativeTime ? 
+                  <ReactTimeAgo date={task.receiptDate} locale="en-US" timeStyle="twitter" />
+                  :
+                  <span className="text-xs">{task.receiptDateShort}</span>
+                }
+
                 {task.queuedBy.length > 0 && <span className="ml-2">({task.queuedBy})</span>}
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <span className="text-xs">{task.lastUpdatedDate}</span>
+                {task.lastUpdatedDate && 
+                  relativeTime ?
+                  <ReactTimeAgo date={task.lastUpdatedDate} locale="en-US" timeStyle="twitter" />
+                  :
+                  <span className="text-xs">{task.lastUpdatedDateShort}</span>
+                }
+
                 {task.autoParsed && <span className="ml-2">(AP)</span>}
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <span className="text-xs">{task.assignedDate}</span>
+                { task.assignedDate &&
+                  relativeTime ?
+                  <ReactTimeAgo date={task.lastUpdatedDate} locale="en-US" timeStyle="twitter" />
+                  :
+                  <span className="text-xs">{task.assignedDate}</span>
+                }
+
                 <div className="text-xs inline-block ml-1">
                   {task.assignedContractor ?
                       <>

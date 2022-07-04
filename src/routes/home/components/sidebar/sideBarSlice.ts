@@ -5,7 +5,8 @@ export enum Tab {
     Search = "search",
     Lsp = "lsp",
     Users = "users",
-    PreferredSearch = "preferred"
+    PreferredSearch = "preferred",
+    Settings = "settings"
 }
 
 interface SideBarState {

@@ -4,6 +4,7 @@ import {
   UsersIcon,
   BriefcaseIcon,
   StarIcon,
+  CogIcon
 } from "@heroicons/react/solid";
 
 import { selectActiveTab, setActiveTab, toggleExpanded, Tab } from "../sideBarSlice";
@@ -12,6 +13,7 @@ import { useAppSelector, useAppDispatch } from "../../../../../app/hooks";
 import LSPDashboard from "./lsp/LspDashboard";
 import UserStats from "./user/UserStats";
 import Search from "./search/SearchFilters";
+import Settings from "./settings/Settings";
 
 const ExpandedSideBar = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +35,7 @@ const ExpandedSideBar = () => {
             <nav className="flex space-x-5">
               <span
                 onClick={() => handleSetActiveTab(Tab.Search)}
-                className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
                               font-medium text-xs
                               ${
                                 activeTab === Tab.Search
@@ -47,7 +49,7 @@ const ExpandedSideBar = () => {
 
               <span
                 onClick={() => handleSetActiveTab(Tab.Lsp)}
-                className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
                              font-medium text-xs border-transparent
                               ${
                                 activeTab === Tab.Lsp
@@ -61,7 +63,7 @@ const ExpandedSideBar = () => {
 
               <span
                 onClick={() => handleSetActiveTab(Tab.Users)}
-                className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
                     font-medium text-xs border-transparent
                      ${
                        activeTab === Tab.Users
@@ -75,7 +77,7 @@ const ExpandedSideBar = () => {
 
               <span
                 onClick={() => handleSetActiveTab(Tab.PreferredSearch)}
-                className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
                     font-medium text-xs border-transparent
                      ${
                        activeTab === Tab.PreferredSearch
@@ -85,6 +87,19 @@ const ExpandedSideBar = () => {
                     `}
               >
                 <StarIcon className="h-5 w-5 text-gray-400" />
+              </span>
+              <span
+                onClick={() => handleSetActiveTab(Tab.Settings)}
+                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
+                    font-medium text-xs border-transparent
+                     ${
+                       activeTab === Tab.Settings
+                         ? "border-indigo-500 text-indigo-600"
+                         : "hover:text-gray-700 hover:border-gray-300"
+                     }
+                    `}
+              >
+                <CogIcon className="h-5 w-5 text-gray-400" />
               </span>
             </nav>
           </div>
@@ -102,6 +117,9 @@ const ExpandedSideBar = () => {
       {activeTab === Tab.Lsp && <LSPDashboard />}
 
       {activeTab === Tab.Users && <UserStats />}
+
+      {activeTab === Tab.Settings && <Settings />}
+
     </div>
   );
 };

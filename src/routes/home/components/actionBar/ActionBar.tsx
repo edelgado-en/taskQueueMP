@@ -2,6 +2,7 @@ import Dropdown from "../../../../components/actiondropdown/dropdown.component";
 import { useAppSelector } from "../../../../app/hooks";
 import { selectSelectedTasks, selectTotalTasks } from "../tasks/tasksSlice";
 
+
 const ActionBar = () => {
   const selectedTasks = useAppSelector(selectSelectedTasks);
   const totalTasks = useAppSelector(selectTotalTasks);
@@ -13,7 +14,7 @@ const ActionBar = () => {
                 border-gray-200 p-2 w-full flex flex-row"
       style={{ marginTop: "-66px" }}
     >
-      <div className="md:basis-[30%] sm:basis-[30%]">
+      <div className="md:basis-[20%] sm:basis-[30%]">
         <Dropdown />
         <span className="text-sm mr-2 ml-3">{totalTasks.toLocaleString('en-US')} Tasks</span>
         {selectedTasks.length > 0 && (
@@ -24,7 +25,7 @@ const ActionBar = () => {
           </>
         )}
       </div>
-      <div className="basis-[70%]">
+      <div className="md:basis-[80%] sm:basis-[70%]">
         {selectedTasks.length > 0 && (
           <>
             <div className="inline-flex shadow-sm rounded-md w-48">
