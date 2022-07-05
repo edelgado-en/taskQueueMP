@@ -34,8 +34,6 @@ const Home = () => {
 
   useEffect(() => {
     
-    //read from searchSlice
-
     const requestObject = {
       assignmentStatusIdSelected: selectedAssignmentStatus.value,
       translationStatusIdSelected: selectedStatus.value,

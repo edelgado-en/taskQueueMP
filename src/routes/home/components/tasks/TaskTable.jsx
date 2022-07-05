@@ -13,7 +13,7 @@ import {
   closeTask
 } from "./tasksSlice";
 
-import { selectRelativeTime } from "../sidebar/expanded/settings/settingsSlice";
+import { selectRelativeTime, selectCompactRows } from "../sidebar/expanded/settings/settingsSlice";
 
 import {
   CalendarIcon,
@@ -48,6 +48,7 @@ const TaskTable = () => {
   const selectedTasks = useAppSelector(selectSelectedTasks);
   const loading = useAppSelector(selectLoading);
   const relativeTime = useAppSelector(selectRelativeTime);
+  const compactRows = useAppSelector(selectCompactRows);
 
   //console.log(tasks);
 
@@ -108,18 +109,18 @@ const TaskTable = () => {
       <table className="divide-y divide-gray-300 w-full" style={{ marginTop: "66px" }}>
       <thead className="bg-gray-50">
         <tr>
-          <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
+          <th scope="col" className="relative sm:w-16 sm:px-8">
             <input
               type="checkbox"
-              className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 sm:left-6"
+              className="absolute left-3 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               ref={checkbox}
               checked={checked}
               onChange={toggleAll}
-            />
+            /> 
           </th>
           <th
             scope="col"
-            className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
+            className="py-1.5 text-left text-xs font-semibold text-gray-900"
           >
             ID
           </th>
@@ -129,6 +130,12 @@ const TaskTable = () => {
           >
             Flags
           </th>
+           {/* <th
+            scope="col"
+            className="px-1 py-1.5 text-left text-xs font-semibold text-gray-900"
+          >
+            Url
+          </th> */}
           <th
             scope="col"
             className="px-3 py-1.5 text-center text-xs font-semibold text-gray-900"
@@ -187,33 +194,34 @@ const TaskTable = () => {
                   : "hover:bg-gray-100"
               }
             >
-              <td className="relative w-12 px-6 sm:w-16 sm:px-8">
+              <td className="relative sm:w-16 sm:px-1">
                 {selectedTasks.includes(task) && (
                   <div className="absolute inset-y-0 left-0 w-0.5 bg-blue-600" />
                 )}
                 <input
                   type="checkbox"
-                  className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 sm:left-6"
+                  className="absolute left-3 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   value={task.id}
                   checked={selectedTasks.includes(task)}
                   onChange={(e) => handleTaskCheckbox(e, task)}
                 />
-                <span
-                  className="ml-4 flex-shrink-0 font-semibold text-gray-500"
-                  style={{ fontSize: "10px" }}
+                <div
+                  className="ml-8 mt-1 flex-shrink-0 font-semibold text-gray-500"
+                  style={{ fontSize: "9px" }}
                 >
                   {task.queueTypeFlagText}
-                </span>
+                </div>
               </td>
+              
               <td
                 className={classNames(
-                  "whitespace-nowrap py-3 pr-3 text-xs font-medium",
+                  `whitespace-nowrap text-xs font-medium ${!compactRows ? 'py-3' : ''}`,
                   selectedTasks.includes(task)
                     ? "text-blue-600"
                     : "text-gray-900"
                 )}
               >
-                <span className="ml-1 font-medium text-sky-600 truncate cursor-pointer">
+                <span className="font-medium text-sky-600 truncate cursor-pointer">
                   {task.id}
                 </span>
                 
@@ -237,6 +245,9 @@ const TaskTable = () => {
 
                 </div>
               </td>
+              {/* <td className="whitespace-nowrap px-1 py-1.5 text-xs text-gray-500">
+                  {task.url}
+              </td> */}
               <td
                 className={`whitespace-nowrap px-3 py1.5 text-xs text-gray-500 text-center`}
               >

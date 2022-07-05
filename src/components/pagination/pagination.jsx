@@ -40,8 +40,6 @@ const PaginationContainer = () => {
     const handlePageChange = (page) => {
         dispatch(setActivePage(page));
 
-        //TODO: get from slice
-
         const requestObject = {
             assignmentStatusIdSelected: selectedAssignmentStatus.value,
             translationStatusIdSelected: selectedStatus.value,
