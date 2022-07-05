@@ -4,6 +4,9 @@ import { STANDARD_DROPDOWN_STYLES } from "../../../../../../constants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import PreferredSearchModal from '../preferredSearches/PreferredSearchModal';
+import { toggleModal } from '../preferredSearches/preferredSearchSlice';
+
 import { useAppSelector, useAppDispatch } from "../../../../../../app/hooks";
 import {
   handleDropdownChange,
@@ -53,6 +56,10 @@ const Search = () => {
     setShowMore(true);
   };
 
+  const handleOpenPreferredSearchModal = () => {
+    dispatch(toggleModal(true));
+  }
+
   /**
    * Because of the nature of the dropdown, we need to have a handler for dropdown and a different
    * handler for regular text input fields.
@@ -92,6 +99,8 @@ const Search = () => {
 
   return (
     <>
+      <PreferredSearchModal />
+
       <div className="mt-2 px-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
         <div>
           <label className="block text-xs font-medium text-gray-700 mb-1 mt-2">
@@ -269,9 +278,9 @@ const Search = () => {
           ) : null}
         </div>
       </div>
-      <div className="h-[15%] px-3 text-right py-4">
+      <div className="h-[15%] px-3.5 text-right py-4">
         <button
-          onClick={handleResetFormFields}
+          onClick={handleOpenPreferredSearchModal}
           type="button"
           className="mr-3 inline-flex items-center px-2.5 py-1.5 border
                    border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700
@@ -282,9 +291,9 @@ const Search = () => {
         <button
           onClick={handleSearch}
           type="button"
-          className="inline-flex items-center px-2.5 py-1.5 border border-transparent
-                     text-xs font-medium rounded shadow-sm text-white bg-indigo-600
-                     hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex items-center px-4 py-1.5 border border-transparent
+                     text-xs font-medium rounded shadow-sm text-white bg-blue-600
+                     hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           Search
         </button>

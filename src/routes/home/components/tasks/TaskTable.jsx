@@ -26,7 +26,9 @@ import {
   CheckIcon,
   TranslateIcon,
   EyeIcon,
-  ReplyIcon
+  ReplyIcon,
+  HandIcon,
+  ThumbUpIcon
 } from "@heroicons/react/solid";
 
 import ReactTimeAgo from 'react-time-ago'
@@ -109,7 +111,7 @@ const TaskTable = () => {
           <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
             <input
               type="checkbox"
-              className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
+              className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 sm:left-6"
               ref={checkbox}
               checked={checked}
               onChange={toggleAll}
@@ -187,11 +189,11 @@ const TaskTable = () => {
             >
               <td className="relative w-12 px-6 sm:w-16 sm:px-8">
                 {selectedTasks.includes(task) && (
-                  <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600" />
+                  <div className="absolute inset-y-0 left-0 w-0.5 bg-blue-600" />
                 )}
                 <input
                   type="checkbox"
-                  className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
+                  className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 sm:left-6"
                   value={task.id}
                   checked={selectedTasks.includes(task)}
                   onChange={(e) => handleTaskCheckbox(e, task)}
@@ -207,7 +209,7 @@ const TaskTable = () => {
                 className={classNames(
                   "whitespace-nowrap py-3 pr-3 text-xs font-medium",
                   selectedTasks.includes(task)
-                    ? "text-indigo-600"
+                    ? "text-blue-600"
                     : "text-gray-900"
                 )}
               >
@@ -225,8 +227,14 @@ const TaskTable = () => {
 
                   {task.errorPage && <ReplyIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
                   
-{/*                   <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                  <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" /> */}
+                  {task.pendingDeletion && <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />}
+
+                  {task.pendingReview && <HandIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
+                  
+                  {task.underReview && <EyeIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
+
+                  {task.assignmentReady && <ThumbUpIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />}
+
                 </div>
               </td>
               <td
@@ -252,7 +260,7 @@ const TaskTable = () => {
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
                 {relativeTime ? 
-                  <ReactTimeAgo date={task.receiptDate} locale="en-US" timeStyle="twitter" />
+                  <ReactTimeAgo date={new Date(task.receiptDate)} locale="en-US" timeStyle="twitter" />
                   :
                   <span className="text-xs">{task.receiptDate}</span>
                 }
@@ -262,7 +270,7 @@ const TaskTable = () => {
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
                 {task.lastUpdatedDate && 
                   relativeTime ?
-                  <ReactTimeAgo date={task.lastUpdatedDate} locale="en-US" timeStyle="twitter" />
+                  <ReactTimeAgo date={new Date(task.lastUpdatedDate)} locale="en-US" timeStyle="twitter" />
                   :
                   <span className="text-xs">{task.lastUpdatedDateShort}</span>
                 }
@@ -272,7 +280,7 @@ const TaskTable = () => {
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
                 { task.assignedDate &&
                   relativeTime ?
-                  <ReactTimeAgo date={task.lastUpdatedDate} locale="en-US" timeStyle="twitter" />
+                  <ReactTimeAgo date={new Date(task.assignedDate)} locale="en-US" timeStyle="twitter" />
                   :
                   <span className="text-xs">{task.assignedDateShort}</span>
                 }
@@ -324,14 +332,18 @@ const TaskTable = () => {
                           rows={3}
                           name="comment"
                           id="comment"
-                          className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                          className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full
+                                     sm:text-sm border-gray-300 rounded-md"
                           placeholder="Add your comment..."
                           defaultValue={""}
                         />
                         <div className="mt-2 mb-4 flex justify-end">
                           <button
                             type="button"
-                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="inline-flex items-center px-4 py-2 border
+                                       border-transparent text-sm font-medium rounded-md shadow-sm text-white
+                                        bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2
+                                         focus:ring-offset-2 focus:ring-blue-500"
                           >
                             Post
                           </button>

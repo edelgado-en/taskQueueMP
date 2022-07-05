@@ -12,9 +12,9 @@ const ActionBar = () => {
       className="shadow md:px-3
                  fixed z-10 bg-white border-solid border-b-2
                 border-gray-200 p-2 w-full flex flex-row"
-      style={{ marginTop: "-66px" }}
+      style={{ marginTop: "-66px", height: '55px' }}
     >
-      <div className="md:basis-[20%] sm:basis-[30%]">
+      <div className="md:basis-[20%] sm:basis-[30%] mt-1">
         <Dropdown />
         <span className="text-sm mr-2 ml-3">{totalTasks.toLocaleString('en-US')} Tasks</span>
         {selectedTasks.length > 0 && (

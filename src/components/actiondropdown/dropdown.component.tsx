@@ -10,7 +10,10 @@ const Dropdown = () => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <Menu.Button className="inline-flex items-center px-2.5 py-1.5 border
+            border-transparent text-xs font-medium rounded text-white
+          bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2
+            focus:ring-offset-2 focus:ring-blue-500">
           Actions
           <ChevronDownIcon className="-mr-1 ml-1 h-4 w-4" aria-hidden="true" />
         </Menu.Button>
