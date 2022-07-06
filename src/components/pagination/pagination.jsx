@@ -56,11 +56,17 @@ const PaginationContainer = () => {
     const handlePageSizeChange = (size) => {
         dispatch(setPageSize(size));
 
+        //TODO: to avoid having to repeat this requestObject, put it in a function in a util file
+
         const requestObject = {
+            assignmentStatusIdSelected: selectedAssignmentStatus.value,
+            translationStatusIdSelected: selectedStatus.value,
+            contentTypeIdSelected: selectedContentType.value,
+            translationTypeIdSelected: selectedTranslationType.value,
             seoMode: false,
             pageSize: size.value,
             activePage
-          }
+        }
 
         dispatch(fetchTasks(requestObject))
     }

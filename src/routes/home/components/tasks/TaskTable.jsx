@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState, useRef } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 
-import {
+import tasksSlice, {
   selectTasks,
   selectSelectedTasks,
   setSelectedTasks,
@@ -13,7 +13,7 @@ import {
   closeTask
 } from "./tasksSlice";
 
-import { selectRelativeTime, selectCompactRows } from "../sidebar/expanded/settings/settingsSlice";
+import { selectRelativeTime, selectCompactRows, selectIncludeUrls } from "../sidebar/expanded/settings/settingsSlice";
 
 import {
   CalendarIcon,
@@ -49,6 +49,7 @@ const TaskTable = () => {
   const loading = useAppSelector(selectLoading);
   const relativeTime = useAppSelector(selectRelativeTime);
   const compactRows = useAppSelector(selectCompactRows);
+  const includeUrls = useAppSelector(selectIncludeUrls);
 
   //console.log(tasks);
 
@@ -130,17 +131,19 @@ const TaskTable = () => {
           >
             Flags
           </th>
-           {/* <th
-            scope="col"
-            className="px-1 py-1.5 text-left text-xs font-semibold text-gray-900"
-          >
-            Url
-          </th> */}
+          {includeUrls && 
+            <th
+              scope="col"
+              className="px-1 py-1.5 text-left text-xs font-semibold text-gray-900"
+            >
+              Url
+            </th>
+          }  
           <th
             scope="col"
-            className="px-3 py-1.5 text-center text-xs font-semibold text-gray-900"
+            className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
           >
-            Text
+            Words
           </th>
           <th
             scope="col"
@@ -152,7 +155,7 @@ const TaskTable = () => {
             scope="col"
             className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
           >
-            Words
+            Text
           </th>
           <th
             scope="col"
@@ -245,11 +248,22 @@ const TaskTable = () => {
 
                 </div>
               </td>
-              {/* <td className="whitespace-nowrap px-1 py-1.5 text-xs text-gray-500">
-                  {task.url}
-              </td> */}
+              {includeUrls && 
+                <td className="whitespace-nowrap px-1 py-1.5 text-xs text-gray-500">
+                  <input type="text"
+                       value={task.url} 
+                       onChange={() => {}}
+                       style={{ width: '650px', fontSize: '12px', border: 'none', padding: '0px' }}/>
+                </td>
+              }
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                <div className="text-xs">{task.totalWords.toLocaleString('en-US')}</div>
+              </td> 
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
+                <div className="text-xs">{task.percentageTextTranslated}%</div>
+              </td>
               <td
-                className={`whitespace-nowrap px-3 py1.5 text-xs text-gray-500 text-center`}
+                className={`whitespace-nowrap px-3 py1.5 text-xs text-gray-500 text-left`}
               >
                 <span className="px-1.5 inline-flex text-xs leading-5 text-gray-500">
                   {task.textTranslationStatus === "Active" && <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />}
@@ -259,12 +273,6 @@ const TaskTable = () => {
                   {task.textTranslationStatus === "N/A" && <span>NA</span>}
                   
                 </span>
-              </td>
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
-                <div className="text-xs">{task.percentageTextTranslated}%</div>
-              </td>
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <div className="text-xs">{task.totalWords.toLocaleString('en-US')}</div>
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-xs ">
                 <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
@@ -304,17 +312,17 @@ const TaskTable = () => {
                       :
                       <span className="hidden px-1">PTS</span>
                   }
-                  {task.assignedTranslator &&
+                  {task.assignedTranslatorInitials &&
                     <>
                       <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
-                      <span>{task.assignedTranslator}</span>{" "}
+                      <span className="text-xs">{task.assignedTranslatorInitials}</span>{" "}
                     </>
                   
                   }
-                  {task.assignedInternalReviewer &&
+                  {task.assignedInternalReviewerInitials &&
                     <>
                       <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
-                      <span>{task.assignedInternalReviewer}</span>
+                      <span>{task.assignedInternalReviewerInitials}</span>
                     </>
                   }
                 </div>
@@ -351,10 +359,9 @@ const TaskTable = () => {
                         <div className="mt-2 mb-4 flex justify-end">
                           <button
                             type="button"
-                            className="inline-flex items-center px-4 py-2 border
-                                       border-transparent text-sm font-medium rounded-md shadow-sm text-white
-                                        bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2
-                                         focus:ring-offset-2 focus:ring-blue-500"
+                            className="inline-flex items-center px-4 py-1.5 border border-transparent
+                                      text-xs font-medium rounded shadow-sm text-white bg-blue-600
+                                    hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                           >
                             Post
                           </button>
