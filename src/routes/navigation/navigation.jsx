@@ -2,13 +2,9 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from './mp-logo.png';
-
 import { Outlet, Link } from "react-router-dom";
-
 import Select from "react-select";
-
 import { STANDARD_DROPDOWN_STYLES, PAGE_SIZE_OPTIONS } from "../../constants";
-
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

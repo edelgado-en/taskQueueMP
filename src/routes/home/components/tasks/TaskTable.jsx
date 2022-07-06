@@ -1,8 +1,7 @@
 import React, { useLayoutEffect, useState, useRef } from "react";
-
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 
-import tasksSlice, {
+import {
   selectTasks,
   selectSelectedTasks,
   setSelectedTasks,
@@ -13,10 +12,13 @@ import tasksSlice, {
   closeTask
 } from "./tasksSlice";
 
-import { selectRelativeTime, selectCompactRows, selectIncludeUrls } from "../sidebar/expanded/settings/settingsSlice";
+import { 
+   selectRelativeTime,
+   selectCompactRows,
+   selectIncludeUrls
+} from "../sidebar/expanded/settings/settingsSlice";
 
 import {
-  CalendarIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   ArrowSmRightIcon,
@@ -32,14 +34,9 @@ import {
 } from "@heroicons/react/solid";
 
 import ReactTimeAgo from 'react-time-ago'
-
 import TaskActivity from "./activity/TaskActivity";
 import TaskComment from "./comment/TaskComment";
 import Spinner from '../../../../components/spinner/Spinner';
-
-const classNames = (...classes) => {
-  return classes.filter(Boolean).join(" ");
-};
 
 const TaskTable = () => {
   const checkbox = useRef();
@@ -50,8 +47,6 @@ const TaskTable = () => {
   const relativeTime = useAppSelector(selectRelativeTime);
   const compactRows = useAppSelector(selectCompactRows);
   const includeUrls = useAppSelector(selectIncludeUrls);
-
-  //console.log(tasks);
 
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
@@ -94,10 +89,6 @@ const TaskTable = () => {
 
   const handleCloseTask = (task) => {
     dispatch(closeTask(task));
-  };
-
-  const handleOpenTask = (page) => {
-    console.log(page);
   };
 
   return (
@@ -217,12 +208,9 @@ const TaskTable = () => {
               </td>
               
               <td
-                className={classNames(
-                  `whitespace-nowrap text-xs font-medium ${!compactRows ? 'py-3' : ''}`,
-                  selectedTasks.includes(task)
-                    ? "text-blue-600"
-                    : "text-gray-900"
-                )}
+                className={`whitespace-nowrap text-xs font-medium
+                           ${!compactRows ? 'py-3' : ''}
+                           ${selectedTasks.includes(task) ? 'text-blue-600' : 'text-gray-900'}`}
               >
                 <span className="font-medium text-sky-600 truncate cursor-pointer">
                   {task.id}
@@ -256,16 +244,19 @@ const TaskTable = () => {
                        style={{ width: '650px', fontSize: '12px', border: 'none', padding: '0px' }}/>
                 </td>
               }
+              
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
                 <div className="text-xs">{task.totalWords.toLocaleString('en-US')}</div>
-              </td> 
+              </td>
+
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
                 <div className="text-xs">{task.percentageTextTranslated}%</div>
               </td>
+              
               <td
-                className={`whitespace-nowrap px-3 py1.5 text-xs text-gray-500 text-left`}
+                className={`whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-left`}
               >
-                <span className="px-1.5 inline-flex text-xs leading-5 text-gray-500">
+                <span className="px-1 inline-flex text-xs leading-5 text-gray-500">
                   {task.textTranslationStatus === "Active" && <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />}
                   {task.textTranslationStatus === "Translated" && <TranslateIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
                   {task.textTranslationStatus === "Cont. Proofed" && <EyeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
@@ -274,9 +265,17 @@ const TaskTable = () => {
                   
                 </span>
               </td>
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs ">
-                <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+              
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-left">
+                <span className="px-1 inline-flex text-xs leading-5 text-gray-500">
+                  {task.fileTranslationStatus === "Active" && <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />}
+                  {task.fileTranslationStatus === "Translated" && <TranslateIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
+                  {task.fileTranslationStatus === "Cont. Proofed" && <EyeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
+                  {task.fileTranslationStatus === "New" && <span style={{ background: '#64748b', padding: '1px 3px', borderRadius: '2px', color: 'white', fontSize: '8px' }}>NEW</span>}
+                  {task.fileTranslationStatus === "N/A" && <span>NA</span>}
+                  </span>
               </td>
+              
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
                 {relativeTime ? 
                   <ReactTimeAgo date={new Date(task.receiptDate)} locale="en-US" timeStyle="twitter" />
@@ -286,6 +285,7 @@ const TaskTable = () => {
 
                 {task.queuedBy.length > 0 && <span className="ml-2">({task.queuedBy})</span>}
               </td>
+
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
                 {task.lastUpdatedDate && 
                   relativeTime ?
@@ -296,6 +296,7 @@ const TaskTable = () => {
 
                 {task.autoParsed && <span className="ml-2">(AP)</span>}
               </td>
+              
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
                 { task.assignedDate &&
                   relativeTime ?
@@ -344,6 +345,7 @@ const TaskTable = () => {
             {task.isExpanded && (
               <tr>
                 <td colSpan="11">
+                  {/* TODO: move this to another component */}
                   <div className="flex bg-gray-100 py-16 px-7">
                     <div className="flex-1">
                       <div className="px-7 w-5/6">
