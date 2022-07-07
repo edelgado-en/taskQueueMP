@@ -15,7 +15,8 @@ import {
 import { 
    selectRelativeTime,
    selectCompactRows,
-   selectIncludeUrls
+   selectIncludeUrls,
+   selectIncludeFiles
 } from "../sidebar/expanded/settings/settingsSlice";
 
 import {
@@ -33,12 +34,16 @@ import {
   ThumbUpIcon
 } from "@heroicons/react/solid";
 
+import {
+  DocumentIcon,
+} from "@heroicons/react/outline";
+
 import ReactTimeAgo from 'react-time-ago'
 import TaskActivity from "./activity/TaskActivity";
 import TaskComment from "./comment/TaskComment";
 import Spinner from '../../../../components/spinner/Spinner';
 
-const TableHeader = ({ name}) => {
+const TableHeader = ({ name }) => {
   return (
     <th
       scope="col"
@@ -57,6 +62,7 @@ const TaskTable = () => {
   const relativeTime = useAppSelector(selectRelativeTime);
   const compactRows = useAppSelector(selectCompactRows);
   const includeUrls = useAppSelector(selectIncludeUrls);
+  const includeFiles = useAppSelector(selectIncludeFiles);
 
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
@@ -138,7 +144,11 @@ const TaskTable = () => {
             <TableHeader name="Words" />
             <TableHeader name="% Trans" />
             <TableHeader name="Text" />
-            <TableHeader name="Files" />
+
+            {includeFiles &&
+              <TableHeader name="Files" />
+            }
+
             <TableHeader name="Created" />
             <TableHeader name="Updated" />
             <TableHeader name="Assigned" />
@@ -204,7 +214,7 @@ const TaskTable = () => {
               </td>
               
               {includeUrls && 
-                <td className="whitespace-nowrap px-1 py-1.5 text-xs text-gray-500">
+                <td className="whitespace-nowrap px-1 py-1.5 text-xs text-black-500">
                   <input type="text"
                        value={task.url} 
                        onChange={() => {}}
@@ -212,35 +222,37 @@ const TaskTable = () => {
                 </td>
               }
               
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-black-500">
                 <div className="text-xs">{task.totalWords.toLocaleString('en-US')}</div>
               </td>
 
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-left">
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-black-500 text-left">
                 <div className="text-xs">{task.percentageTextTranslated}%</div>
               </td>
               
-              <td className={`whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-left`}>
-                <span className="px-1 inline-flex text-xs leading-5 text-gray-500">
+              <td className={`whitespace-nowrap px-3 py-1.5 text-xs text-black-500 text-left`}>
+                <span className="px-1 inline-flex text-xs leading-5 text-black-500">
                   {task.textTranslationStatus === "Active" && <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />}
                   {task.textTranslationStatus === "Translated" && <TranslateIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
                   {task.textTranslationStatus === "Cont. Proofed" && <EyeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
-                  {task.textTranslationStatus === "New" && <span style={{ background: '#64748b', padding: '1px 3px', borderRadius: '2px', color: 'white', fontSize: '8px' }}>NEW</span>}
+                  {task.textTranslationStatus === "New" && <DocumentIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-blue-400" />}
                   {task.textTranslationStatus === "N/A" && <span>NA</span>}
                 </span>
               </td>
               
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-left">
-                <span className="px-1 inline-flex text-xs leading-5 text-gray-500">
-                  {task.fileTranslationStatus === "Active" && <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />}
-                  {task.fileTranslationStatus === "Translated" && <TranslateIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
-                  {task.fileTranslationStatus === "Cont. Proofed" && <EyeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
-                  {task.fileTranslationStatus === "New" && <span style={{ background: '#64748b', padding: '1px 3px', borderRadius: '2px', color: 'white', fontSize: '8px' }}>NEW</span>}
-                  {task.fileTranslationStatus === "N/A" && <span>NA</span>}
-                  </span>
-              </td>
-              
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+              {includeFiles &&
+                <td className="whitespace-nowrap px-3 py-1.5 text-xs text-black-500 text-left">
+                  <span className="px-1 inline-flex text-xs leading-5 text-gray-500">
+                    {task.fileTranslationStatus === "Active" && <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />}
+                    {task.fileTranslationStatus === "Translated" && <TranslateIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
+                    {task.fileTranslationStatus === "Cont. Proofed" && <EyeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
+                    {task.fileTranslationStatus === "New" && <DocumentIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-blue-400" />}
+                    {task.fileTranslationStatus === "N/A" && <span>NA</span>}
+                    </span>
+                </td>
+              }
+
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-black-500">
                 {relativeTime ? 
                   <ReactTimeAgo date={new Date(task.receiptDate)} locale="en-US" timeStyle="twitter" />
                   :
@@ -250,7 +262,7 @@ const TaskTable = () => {
                 {task.queuedBy.length > 0 && <span className="ml-2">({task.queuedBy})</span>}
               </td>
 
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-black-500">
                 {task.lastUpdatedDate && 
                   relativeTime ?
                   <ReactTimeAgo date={new Date(task.lastUpdatedDate)} locale="en-US" timeStyle="twitter" />
@@ -261,7 +273,7 @@ const TaskTable = () => {
                 {task.autoParsed && <span className="ml-2">(AP)</span>}
               </td>
               
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-black-500">
                 { task.assignedDate &&
                   relativeTime ?
                   <ReactTimeAgo date={new Date(task.assignedDate)} locale="en-US" timeStyle="twitter" />

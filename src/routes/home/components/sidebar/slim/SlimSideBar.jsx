@@ -8,22 +8,21 @@ import {
   CogIcon
 } from "@heroicons/react/solid";
 
-import { toggleExpanded, setActiveTab } from "../sideBarSlice";
-import { useAppDispatch } from "../../../../../app/hooks";
-
-import ReactTooltip from "react-tooltip";
-
+import { setActiveTab } from "../sideBarSlice";
+import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
+import { selectSidebarOpen, handleSidebarOpenChange } from "../../sidebar/expanded/settings/settingsSlice";
 import { Tab } from '../sideBarSlice'
+import ReactTooltip from "react-tooltip";
 
 const SlimSideBar = () => {
   const dispatch = useAppDispatch();
+  const sidebarOpen = useAppSelector(selectSidebarOpen);
+  
 
   const handleSideBarExpanded = (tab) => {
-    dispatch(toggleExpanded());
+    dispatch(handleSidebarOpenChange(!sidebarOpen));
     dispatch(setActiveTab(tab));
   };
-
-  //TODO: create a function for LogoutIcon to use activeTab to open that one
 
   return (
     <div className="fixed flex bg-gray-100 min-h-screen flex-col z-50 border-r-2 p-4 w-14">

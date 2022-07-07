@@ -3,13 +3,15 @@ import TaskTable from "./components/tasks/TaskTable";
 import SideBar from "./components/sidebar/sidebar";
 import Pagination from "../../components/pagination/pagination";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectIsExpanded } from "./components/sidebar/sideBarSlice";
+//import { selectIsExpanded } from "./components/sidebar/sideBarSlice";
+import { selectSidebarOpen } from "./components/sidebar/expanded/settings/settingsSlice";
+
 import { fetchTasks, selectPageSize, selectActivePage } from "./components/tasks/tasksSlice";
 import { selectFilters } from "./components/sidebar/expanded/search/searchSlice";
 import { useEffect } from "react";
 
 const Home = () => {
-  const isExpanded = useAppSelector(selectIsExpanded);
+  const isExpanded = useAppSelector(selectSidebarOpen);
   const pageSize = useAppSelector(selectPageSize);
   const activePage = useAppSelector(selectActivePage);
 
@@ -51,6 +53,8 @@ const Home = () => {
   return (
     <>
       <div style={{ marginTop: '50px' }}></div>
+      {/* TODO: when switching queues, only load this AFTER you have successfully set all the corresponding values in the localStorage
+      so that the API calls can work correctly. */}
       <div className="flex">
         <SideBar />
         <div className="w-full">

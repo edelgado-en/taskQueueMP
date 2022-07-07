@@ -6,12 +6,15 @@ import { Outlet, Link } from "react-router-dom";
 import Select from "react-select";
 import { STANDARD_DROPDOWN_STYLES, PAGE_SIZE_OPTIONS } from "../../constants";
 
+import { loadTextBenchSession } from '../../localstorage';
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Navigation = () => {
-  
+  const tpmSession = loadTextBenchSession();
+
   const handlePageSizeChange = (size) => {
 
   }
@@ -58,13 +61,20 @@ const Navigation = () => {
                       Tasks
                     </Link> */}
                     <div className="w-48 mt-2 ml-8">
-                        <Select 
+                       {/*  <Select 
                             maxMenuHeight={160}
                             styles={STANDARD_DROPDOWN_STYLES}
                             value={1}
                             onChange={handlePageSizeChange}
                             options={PAGE_SIZE_OPTIONS}
-                        />
+                        /> */}
+                        <div className="mt-1">
+                          {tpmSession.project.name} - {tpmSession.project.sourceLanguage.code} - {tpmSession.project.targetLanguage.name}
+
+                          {tpmSession.project.targetCountry
+                             && tpmSession.project.targetCountry.name 
+                                ? ` - ${tpmSession.project.targetCountry.name}` : ''}
+                        </div>
                     </div>
                   </div>
                 </div>

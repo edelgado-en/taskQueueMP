@@ -4,7 +4,8 @@ import { useAppSelector, useAppDispatch } from "../../../../../../app/hooks";
 
 import { selectRelativeTime, handleRelativeTimeChange,
     selectCompactRows, handleFatRowChange,
-    selectIncludeUrls, handleIncludeUrlsChange } from './settingsSlice';  
+    selectIncludeUrls, handleIncludeUrlsChange,
+    selectIncludeFiles, handleIncludeFilesChange } from './settingsSlice';  
 
 import SwitchButton from "../../../../../../components/button/SwitchButton";
 
@@ -14,6 +15,7 @@ const Settings = () => {
     const relativeTime = useAppSelector(selectRelativeTime);
     const compactRows = useAppSelector(selectCompactRows);
     const includeUrls = useAppSelector(selectIncludeUrls);
+    const includeFiles = useAppSelector(selectIncludeFiles);
 
     const handleTimeChange = () => {
         dispatch(handleRelativeTimeChange(!relativeTime));
@@ -25,6 +27,10 @@ const Settings = () => {
 
     const handleUrlChange = () => {
         dispatch(handleIncludeUrlsChange(!includeUrls));
+    }
+
+    const handleFileChange = () => {
+        dispatch(handleIncludeFilesChange(!includeFiles));
     }
 
     return (
@@ -49,7 +55,13 @@ const Settings = () => {
                     checkedValue={includeUrls}
                     label={'Include urls'}
                     handleOnChange={handleUrlChange} />
+                <br />
+                <SwitchButton 
+                    checkedValue={includeFiles}
+                    label={'Include files'}
+                    handleOnChange={handleFileChange} />
             </div>
+            
                 {/* TODO: Add another setting to keep the sidebar open on page load */}
         </div>
     )

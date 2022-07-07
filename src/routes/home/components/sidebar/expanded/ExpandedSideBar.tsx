@@ -7,7 +7,8 @@ import {
   CogIcon
 } from "@heroicons/react/solid";
 
-import { selectActiveTab, setActiveTab, toggleExpanded, Tab } from "../sideBarSlice";
+import { selectActiveTab, setActiveTab, Tab } from "../sideBarSlice";
+import { selectSidebarOpen, handleSidebarOpenChange } from "./settings/settingsSlice";
 import { useAppSelector, useAppDispatch } from "../../../../../app/hooks";
 
 import LSPDashboard from "./lsp/LspDashboard";
@@ -41,13 +42,14 @@ const HeaderTab = ({ handleOnClick, isActive, children }: IHeaderTab) => {
 const ExpandedSideBar = () => {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector(selectActiveTab);
+  const sidebarOpen = useAppSelector(selectSidebarOpen);
 
   const handleSetActiveTab = (tab: Tab) => {
     dispatch(setActiveTab(tab));
   };
 
   const handleSideBarExpanded = () => {
-    dispatch(toggleExpanded());
+    dispatch(handleSidebarOpenChange(!sidebarOpen));
   };
 
   return (

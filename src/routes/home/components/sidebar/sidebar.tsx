@@ -1,10 +1,11 @@
 import SlimSideBar from "./slim/SlimSideBar";
 import ExpandedSideBar from "./expanded/ExpandedSideBar";
 import { useAppSelector } from "../../../../app/hooks";
-import { selectIsExpanded } from "./sideBarSlice";
+
+import { selectSidebarOpen } from "../sidebar/expanded/settings/settingsSlice";
 
 const SideBar = () => {
-  const isExpanded = useAppSelector(selectIsExpanded);
+  const isExpanded = useAppSelector(selectSidebarOpen);
 
   return isExpanded ? <ExpandedSideBar /> : <SlimSideBar />;
 };

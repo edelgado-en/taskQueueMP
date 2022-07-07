@@ -70,7 +70,7 @@ const ActionBar = () => {
         {selectedTasks.length > 0 && (
           <>
             <StatsCard words={5678} tasks={15}>
-              <DocumentIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+              <DocumentIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-blue-400" />
             </StatsCard>
             
             <StatsCard words={12678} tasks={12}>
