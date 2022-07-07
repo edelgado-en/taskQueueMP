@@ -64,6 +64,8 @@ const TaskTable = () => {
   const includeUrls = useAppSelector(selectIncludeUrls);
   const includeFiles = useAppSelector(selectIncludeFiles);
 
+console.log(tasks)
+
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
 
@@ -198,9 +200,11 @@ const TaskTable = () => {
                   
                   {task.onHold && <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
 
-                  {task.specialEdit && <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
+                  {task.specialEdit && <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />}
 
                   {task.errorPage && <ReplyIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
+
+                  {task.errorPageReviewed && <ReplyIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />}
                   
                   {task.pendingDeletion && <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />}
 
@@ -337,7 +341,7 @@ const TaskTable = () => {
                           placeholder="Add your comment..."
                           defaultValue={""}
                         />
-                        <div className="mt-2 mb-4 flex justify-end">
+                        <div className="mt-2 mb-6 flex justify-end">
                           <button
                             type="button"
                             className="inline-flex items-center px-4 py-1.5 border border-transparent

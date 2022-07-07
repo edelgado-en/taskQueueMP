@@ -15,6 +15,7 @@ import LSPDashboard from "./lsp/LspDashboard";
 import UserStats from "./user/UserStats";
 import Search from "./search/SearchFilters";
 import Settings from "./settings/Settings";
+import PreferredSearch from './preferredSearches/PreferredSearch';
 
 interface IHeaderTab {
   handleOnClick: () => void;
@@ -103,6 +104,8 @@ const ExpandedSideBar = () => {
       {activeTab === Tab.Users && <UserStats />}
 
       {activeTab === Tab.Settings && <Settings />}
+
+      {activeTab === Tab.PreferredSearch && <PreferredSearch />}
 
     </div>
   );
