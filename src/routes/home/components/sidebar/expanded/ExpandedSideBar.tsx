@@ -15,6 +15,29 @@ import UserStats from "./user/UserStats";
 import Search from "./search/SearchFilters";
 import Settings from "./settings/Settings";
 
+interface IHeaderTab {
+  handleOnClick: () => void;
+  isActive: boolean;
+  children: React.ReactNode;
+}
+
+const HeaderTab = ({ handleOnClick, isActive, children }: IHeaderTab) => {
+  return (
+    <span
+      onClick={handleOnClick}
+      className={`cursor-pointer whitespace-nowrap py-2 border-b-2 font-medium text-xs
+                    ${
+                      isActive
+                        ? "border-blue-500 text-blue-600"
+                        : "hover:text-gray-700 hover:border-gray-300"
+                    }
+                    `}
+    >
+      {children}
+    </span>
+  )
+}
+
 const ExpandedSideBar = () => {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector(selectActiveTab);
@@ -33,83 +56,42 @@ const ExpandedSideBar = () => {
         <div className="basis-[90%]">
           <div className="border-b border-gray-200">
             <nav className="flex space-x-5">
-              <span
-                onClick={() => handleSetActiveTab(Tab.Search)}
-                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
-                              font-medium text-xs
-                              ${
-                                activeTab === Tab.Search
-                                  ? "border-indigo-500 text-indigo-600"
-                                  : "hover:text-gray-700 hover:border-gray-300"
-                              }
-                              `}
-              >
+              
+              <HeaderTab handleOnClick={() => handleSetActiveTab(Tab.Search)}
+                         isActive={activeTab === Tab.Search}>
                 <SearchIcon className="h-5 w-5 text-gray-400" />
-              </span>
+              </HeaderTab>
 
-              <span
-                onClick={() => handleSetActiveTab(Tab.Lsp)}
-                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
-                             font-medium text-xs border-transparent
-                              ${
-                                activeTab === Tab.Lsp
-                                  ? "border-indigo-500 text-indigo-600"
-                                  : "hover:text-gray-700 hover:border-gray-300"
-                              }
-                             `}
-              >
+              <HeaderTab handleOnClick={() => handleSetActiveTab(Tab.Lsp)}
+                         isActive={activeTab === Tab.Lsp}>
                 <BriefcaseIcon className="h-5 w-5 text-gray-400" />
-              </span>
+              </HeaderTab>
 
-              <span
-                onClick={() => handleSetActiveTab(Tab.Users)}
-                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
-                    font-medium text-xs border-transparent
-                     ${
-                       activeTab === Tab.Users
-                         ? "border-indigo-500 text-indigo-600"
-                         : "hover:text-gray-700 hover:border-gray-300"
-                     }
-                    `}
-              >
+              <HeaderTab handleOnClick={() => handleSetActiveTab(Tab.Users)}
+                         isActive={activeTab === Tab.Users}>
                 <UsersIcon className="h-5 w-5 text-gray-400" />
-              </span>
+              </HeaderTab>
 
-              <span
-                onClick={() => handleSetActiveTab(Tab.PreferredSearch)}
-                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
-                    font-medium text-xs border-transparent
-                     ${
-                       activeTab === Tab.PreferredSearch
-                         ? "border-indigo-500 text-indigo-600"
-                         : "hover:text-gray-700 hover:border-gray-300"
-                     }
-                    `}
-              >
+              <HeaderTab handleOnClick={() => handleSetActiveTab(Tab.PreferredSearch)}
+                         isActive={activeTab === Tab.PreferredSearch}>
                 <StarIcon className="h-5 w-5 text-gray-400" />
-              </span>
-              <span
-                onClick={() => handleSetActiveTab(Tab.Settings)}
-                className={`cursor-pointer whitespace-nowrap py-2 border-b-2
-                    font-medium text-xs border-transparent
-                     ${
-                       activeTab === Tab.Settings
-                         ? "border-indigo-500 text-indigo-600"
-                         : "hover:text-gray-700 hover:border-gray-300"
-                     }
-                    `}
-              >
-                <CogIcon className="h-5 w-5 text-gray-400" />
-              </span>
+              </HeaderTab>
+
+              <HeaderTab handleOnClick={() => handleSetActiveTab(Tab.Settings)}
+                         isActive={activeTab === Tab.Settings}>
+                 <CogIcon className="h-5 w-5 text-gray-400" />
+              </HeaderTab>
             </nav>
           </div>
         </div>
+
         <div className="basis-[10%] pt-1">
           <LoginIcon
             className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer"
             onClick={handleSideBarExpanded}
           />
         </div>
+
       </div>
 
       {activeTab === Tab.Search && <Search />}

@@ -35,8 +35,9 @@ const stats = [
   },
 ];
 
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
+enum ChangeType {
+  Increase = 'increase',
+  Decrease = 'decrease'
 }
 
 //TODO: This must be get from the backend on intiial render because some database have different contractors. Create a new 
@@ -45,6 +46,26 @@ const options = [
   { value: 1, label: "ProTranslating" },
   { value: 2, label: "MLG International" },
 ];
+
+interface WordStat {
+  label: string;
+  stat: number;
+}
+
+const WordStatRow = ({ label, stat }: WordStat) => {
+  return (
+    <tr>
+            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
+              {label}
+            </td>
+            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
+              {stat.toLocaleString('en-US')}
+            </td>
+          </tr>
+  )
+
+}
+
 
 const LspDashboard = () => {
   //TODO: instead of using any use DropdownOption
@@ -84,14 +105,9 @@ const LspDashboard = () => {
               {item.change.length > 0 && (
                 <>
                   <div
-                    className={classNames(
-                      item.changeType === "increase"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800",
-                      "inline-flex items-baseline px-2.5 py-0.5 rounded-full text-xs font-medium md:mt-2 lg:mt-0"
-                    )}
-                  >
-                    {item.changeType === "increase" ? (
+                    className={`${item.changeType === ChangeType.Increase ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
+                               inline-flex items-baseline px-2.5 py-0.5 rounded-full text-xs font-medium md:mt-2 lg:mt-0`}>
+                    {item.changeType === ChangeType.Increase ? (
                       <ArrowSmUpIcon
                         className="-ml-1 mr-0.5 flex-shrink-0 self-center h-4 w-4 text-green-500"
                         aria-hidden="true"
@@ -104,7 +120,7 @@ const LspDashboard = () => {
                     )}
 
                     <span className="sr-only">
-                      {item.changeType === "increase"
+                      {item.changeType === ChangeType.Increase
                         ? "Increased"
                         : "Decreased"}{" "}
                       by
@@ -117,6 +133,7 @@ const LspDashboard = () => {
           </div>
         ))}
       </dl>
+
       <table className="divide-y divide-gray-300 mt-7 w-full text-right">
         <thead className="bg-gray-50">
           <tr>
@@ -130,46 +147,11 @@ const LspDashboard = () => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
-          <tr>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              Total
-            </td>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              1,345
-            </td>
-          </tr>
-          <tr>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              New
-            </td>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              1,345
-            </td>
-          </tr>
-          <tr>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              Tranlated
-            </td>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              1,345
-            </td>
-          </tr>
-          <tr>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              Reviewed
-            </td>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              1,345
-            </td>
-          </tr>
-          <tr>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              Activated
-            </td>
-            <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">
-              1,345
-            </td>
-          </tr>
+          <WordStatRow label={'Total'} stat={1345}/>
+          <WordStatRow label={'New'} stat={1216}/>
+          <WordStatRow label={'Translated'} stat={2390}/>
+          <WordStatRow label={'Reviewed'} stat={1115}/>
+          <WordStatRow label={'Activated'} stat={1225}/>
         </tbody>
       </table>
       <div className="m-8"></div>

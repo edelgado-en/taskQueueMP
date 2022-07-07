@@ -69,19 +69,19 @@ const ActionBar = () => {
       <div className="md:basis-[80%] sm:basis-[70%]">
         {selectedTasks.length > 0 && (
           <>
-            <StatsCard words={15678} tasks={12}>
+            <StatsCard words={5678} tasks={15}>
               <DocumentIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
             </StatsCard>
             
-            <StatsCard words={15678} tasks={12}>
+            <StatsCard words={12678} tasks={12}>
               <TranslateIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />
             </StatsCard>
             
-            <StatsCard words={15678} tasks={12}>
+            <StatsCard words={678} tasks={5}>
               <EyeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />
             </StatsCard>
 
-            <StatsCard words={15678} tasks={12}>
+            <StatsCard words={14678} tasks={1}>
               <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
             </StatsCard>
 
