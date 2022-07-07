@@ -1,6 +1,18 @@
-# Getting Started with Create React App and Redux
+# Translation Manager V2
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+
+## Quick Features
+
+- React 18
+- TailwindCSS
+- Typescript
+- Heroicons
+- HeadlessUI
+- React Router V6
+- [React Suspense](https://reactjs.org/docs/concurrent-mode-suspense.html) + Fetch-As-You-Render Query Prefetching
+
+- Development Mode (npm start) comes with a login screen, so that you don't have to run ControlCenter or TPM. You just need to run the corresponding backend services
 
 ## Available Scripts
 
