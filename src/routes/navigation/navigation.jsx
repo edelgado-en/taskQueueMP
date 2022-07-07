@@ -25,7 +25,9 @@ const Navigation = () => {
               <div className="relative flex justify-between" style={{ height: '50px' }}>
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <Disclosure.Button className="inline-flex items-center justify-center p-2
+                                     rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100
+                                      focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -43,7 +45,10 @@ const Navigation = () => {
                       alt="mp-logo"
                     />
                     <div className="px-3 font-medium text-lg">Translation Manager</div>
-                    <div className="px-1 py-1 rounded uppercase text-xs tracking-wide whitespace-nowrap font-semibold bg-sky-100 text-sky-500">Beta</div>
+                    <div className="px-1 py-1 rounded uppercase text-xs tracking-wide whitespace-nowrap
+                                   font-semibold bg-sky-100 text-sky-500">
+                                    Beta
+                    </div>
                   </div>
                   <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                     {/* <Link
@@ -66,7 +71,8 @@ const Navigation = () => {
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   <button
                     type="button"
-                    className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500
+                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -93,7 +99,8 @@ const Navigation = () => {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48
+                                             rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                           {({ active }) => (
                             <a

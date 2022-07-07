@@ -43,11 +43,13 @@ const App = () => {
           <div className="flex-grow">
             <Routes>
               <Route path="/login" element={<Login />} />
+              
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Navigation />}>
                     <Route index element={<Home />} />
                 </Route>
               </Route>
+            
             </Routes>
           </div>
           { pathname !== '/login' && <Footer /> } 

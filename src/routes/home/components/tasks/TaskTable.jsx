@@ -38,6 +38,16 @@ import TaskActivity from "./activity/TaskActivity";
 import TaskComment from "./comment/TaskComment";
 import Spinner from '../../../../components/spinner/Spinner';
 
+const TableHeader = ({ name}) => {
+  return (
+    <th
+      scope="col"
+      className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
+      {name}
+    </th>
+  )
+}
+
 const TaskTable = () => {
   const checkbox = useRef();
   const dispatch = useAppDispatch();
@@ -66,6 +76,7 @@ const TaskTable = () => {
 
   }, [selectedTasks, tasks]);
 
+
   const toggleAll = () => {
     const newTasks = checked || indeterminate ? [] : tasks;
 
@@ -75,6 +86,7 @@ const TaskTable = () => {
     setIndeterminate(false);
   };
 
+
   const handleTaskCheckbox = (event, task) => {
     if (event.target.checked) {
       dispatch(addSelectedTask(task));
@@ -83,9 +95,11 @@ const TaskTable = () => {
     }
   };
 
+
   const handleExpandTask = (task) => {
     dispatch(expandTask(task));
   };
+
 
   const handleCloseTask = (task) => {
     dispatch(closeTask(task));
@@ -99,130 +113,82 @@ const TaskTable = () => {
 
     { (!loading && tasks.length > 0) && 
       <table className="divide-y divide-gray-300 w-full" style={{ marginTop: "66px" }}>
-      <thead className="bg-gray-50">
-        <tr>
-          <th scope="col" className="relative sm:w-16 sm:px-8">
-            <input
-              type="checkbox"
-              className="absolute left-3 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              ref={checkbox}
-              checked={checked}
-              onChange={toggleAll}
-            /> 
-          </th>
-          <th
-            scope="col"
-            className="py-1.5 text-left text-xs font-semibold text-gray-900"
-          >
-            ID
-          </th>
-          <th
-            scope="col"
-            className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
-          >
-            Flags
-          </th>
-          {includeUrls && 
-            <th
-              scope="col"
-              className="px-1 py-1.5 text-left text-xs font-semibold text-gray-900"
-            >
-              Url
+        <thead className="bg-gray-50">
+          <tr>
+            <th scope="col" className="relative sm:w-16 sm:px-8">
+              <input
+                type="checkbox"
+                className="absolute left-3 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                ref={checkbox}
+                checked={checked}
+                onChange={toggleAll}
+              /> 
             </th>
-          }  
-          <th
-            scope="col"
-            className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
-          >
-            Words
-          </th>
-          <th
-            scope="col"
-            className="px-3 py-1.5 text-center text-xs font-semibold text-gray-900"
-          >
-            % Trans
-          </th>
-          <th
-            scope="col"
-            className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
-          >
-            Text
-          </th>
-          <th
-            scope="col"
-            className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
-          >
-            Files
-          </th>
-          <th
-            scope="col"
-            className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
-          >
-            Created
-          </th>
-          <th
-            scope="col"
-            className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
-          >
-            Updated
-          </th>
-          <th
-            scope="col"
-            className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900"
-          >
-            Assigned
-          </th>
-          <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-            <span className="sr-only">Edit</span>
-          </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-gray-200 bg-white">
+            
+            <th scope="col" className="py-1.5 text-left text-xs font-semibold text-gray-900">
+              ID
+            </th>
+
+            <TableHeader name="Flags" />
+            
+            {includeUrls && 
+              <TableHeader name="Url" />
+            }
+
+            <TableHeader name="Words" />
+            <TableHeader name="% Trans" />
+            <TableHeader name="Text" />
+            <TableHeader name="Files" />
+            <TableHeader name="Created" />
+            <TableHeader name="Updated" />
+            <TableHeader name="Assigned" />
+  
+            <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+              <span className="sr-only"></span>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 bg-white">
+        
         {tasks && tasks.map((task) => (
           <React.Fragment key={task.id}>
-            <tr
-              className={
-                selectedTasks.includes(task)
-                  ? "bg-gray-100"
-                  : "hover:bg-gray-100"
-              }
-            >
+            <tr className={selectedTasks.includes(task) ? "bg-gray-100" : "hover:bg-gray-100"}>
               <td className="relative sm:w-16 sm:px-1">
                 {selectedTasks.includes(task) && (
                   <div className="absolute inset-y-0 left-0 w-0.5 bg-blue-600" />
                 )}
+                
                 <input
                   type="checkbox"
-                  className="absolute left-3 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="absolute left-3 top-1/2 -mt-2 h-4 w-4 rounded
+                           border-gray-300 text-blue-600 focus:ring-blue-500"
                   value={task.id}
                   checked={selectedTasks.includes(task)}
                   onChange={(e) => handleTaskCheckbox(e, task)}
                 />
                 <div
                   className="ml-8 mt-1 flex-shrink-0 font-semibold text-gray-500"
-                  style={{ fontSize: "9px" }}
-                >
+                  style={{ fontSize: "9px" }}>
                   {task.queueTypeFlagText}
                 </div>
+              
               </td>
               
-              <td
-                className={`whitespace-nowrap text-xs font-medium
+              <td className={`whitespace-nowrap text-xs font-medium
                            ${!compactRows ? 'py-3' : ''}
-                           ${selectedTasks.includes(task) ? 'text-blue-600' : 'text-gray-900'}`}
-              >
+                           ${selectedTasks.includes(task) ? 'text-blue-600' : 'text-gray-900'}`}>
                 <span className="font-medium text-sky-600 truncate cursor-pointer">
                   {task.id}
                 </span>
-                
               </td>
+
               <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
                 <div className="flex items-center text-sm text-gray-500">
                   
-                  {task.onHold && <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-500" />}
+                  {task.onHold && <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
 
-                  {task.specialEdit && <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />}
+                  {task.specialEdit && <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
 
                   {task.errorPage && <ReplyIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-rose-400" />}
                   
@@ -236,6 +202,7 @@ const TaskTable = () => {
 
                 </div>
               </td>
+              
               {includeUrls && 
                 <td className="whitespace-nowrap px-1 py-1.5 text-xs text-gray-500">
                   <input type="text"
@@ -249,20 +216,17 @@ const TaskTable = () => {
                 <div className="text-xs">{task.totalWords.toLocaleString('en-US')}</div>
               </td>
 
-              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-left">
                 <div className="text-xs">{task.percentageTextTranslated}%</div>
               </td>
               
-              <td
-                className={`whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-left`}
-              >
+              <td className={`whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-left`}>
                 <span className="px-1 inline-flex text-xs leading-5 text-gray-500">
                   {task.textTranslationStatus === "Active" && <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />}
                   {task.textTranslationStatus === "Translated" && <TranslateIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
                   {task.textTranslationStatus === "Cont. Proofed" && <EyeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" />}
                   {task.textTranslationStatus === "New" && <span style={{ background: '#64748b', padding: '1px 3px', borderRadius: '2px', color: 'white', fontSize: '8px' }}>NEW</span>}
                   {task.textTranslationStatus === "N/A" && <span>NA</span>}
-                  
                 </span>
               </td>
               
@@ -313,6 +277,7 @@ const TaskTable = () => {
                       :
                       <span className="hidden px-1">PTS</span>
                   }
+                  
                   {task.assignedTranslatorInitials &&
                     <>
                       <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
@@ -320,6 +285,7 @@ const TaskTable = () => {
                     </>
                   
                   }
+
                   {task.assignedInternalReviewerInitials &&
                     <>
                       <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
@@ -328,6 +294,7 @@ const TaskTable = () => {
                   }
                 </div>
               </td>
+              
               <td>
                 {task.isExpanded ? (
                   <ChevronUpIcon
@@ -382,7 +349,7 @@ const TaskTable = () => {
             )}
           </React.Fragment>
         ))}
-      </tbody>
+        </tbody>
       </table>
     }
     </>
