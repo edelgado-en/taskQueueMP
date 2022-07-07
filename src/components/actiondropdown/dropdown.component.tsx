@@ -2,11 +2,52 @@ import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(' ')
+interface IDropdownItem {
+  label: string;
+  handleAction: () => void;
+}
+
+const DropdownItem = ({ label, handleAction } : IDropdownItem) => {
+  return (
+    <Menu.Item>
+      {({ active }) => (
+        <a href="#"
+          onClick={handleAction}
+          className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} block px-4 py-2 text-sm`}>
+          {label}
+        </a>
+      )}
+    </Menu.Item>
+  )
 }
 
 const Dropdown = () => {
+
+  const handleOpenTasks = () => {
+    console.log('open tasks');
+  }
+
+  const handleNewSegments = () => {
+    console.log('new segments');
+  }
+
+  const handleAssignToLSP = () => {
+    console.log('assign to LSP');
+  }
+
+  const handleAssignToInternalReviewer = () => {
+    console.log('assign to internal reviewer');
+  }
+
+  const handleDeleteTasks = () => {
+    console.log('delete tasks');
+  }
+
+  const handleUpdateTasks = () => {
+    console.log('update tasks');
+  }
+
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -32,88 +73,19 @@ const Dropdown = () => {
                                rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5
                               divide-y divide-gray-100 focus:outline-none z-20">
           <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Open Tasks
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  New Segments
-                </a>
-              )}
-            </Menu.Item>
+            <DropdownItem label="Open Tasks" handleAction={handleOpenTasks} />
+            <DropdownItem label="New Segments" handleAction={handleNewSegments} />
           </div>
+
           <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Assign to LSP
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Assign to Internal Reviewer
-                </a>
-              )}
-            </Menu.Item>
+            <DropdownItem label="Assign to LSP" handleAction={handleAssignToLSP} />
+            <DropdownItem label="Assign to Internal Reviewer" handleAction={handleAssignToInternalReviewer} />
+           
           </div>
+          
           <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Delete Tasks
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Update Tasks
-                </a>
-              )}
-            </Menu.Item>
+            <DropdownItem label="Delete Tasks" handleAction={handleDeleteTasks} />
+            <DropdownItem label="Update Tasks" handleAction={handleUpdateTasks} />
           </div>
         </Menu.Items>
       </Transition>
