@@ -2,12 +2,10 @@ import ActionBar from "./components/actionBar/ActionBar";
 import TaskTable from "./components/tasks/TaskTable";
 import SideBar from "./components/sidebar/sidebar";
 import Pagination from "../../components/pagination/pagination";
-
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectIsExpanded } from "./components/sidebar/sideBarSlice";
 import { fetchTasks, selectPageSize, selectActivePage } from "./components/tasks/tasksSlice";
 import { selectFilters } from "./components/sidebar/expanded/search/searchSlice";
-
 import { useEffect } from "react";
 
 const Home = () => {
@@ -34,6 +32,8 @@ const Home = () => {
 
   useEffect(() => {
     
+    //TODO: move this to a common location for all the fetching because the filters always come from the same place
+    //so you only need to build the requestObject once and you can call it from multiple places.
     const requestObject = {
       assignmentStatusIdSelected: selectedAssignmentStatus.value,
       translationStatusIdSelected: selectedStatus.value,

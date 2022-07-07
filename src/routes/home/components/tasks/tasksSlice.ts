@@ -9,11 +9,62 @@ interface PageSize {
 
 interface Task {
     id: number;
-    translationStatus: string;
-    isExpanded?: boolean
+    url: string;
+    originalUrl: string | null;
+    totalWords: number;
+    textTranslationStatus: string;
+    fileTranslationStatus: string;
+    percentageFileTranslated: number;
+    percentageTextTranslated: number;
+    assignedContractor: string | null;
+    assignedContractorProofer: string | null;
+    assignedInternalReviewer: string | null;
+    assignedInternalReviewerInitials: string | null;
+    assignedTranslator: string | null;
+    assignedTranslatorInitials: string | null;
+    assignedDate: string | null;
+    contenType: string;
+    lastUpdateDate: string | null;
+    lastUpdateDateShort: string | null;
+    priority: string | null;
+    projectCode: string | null;
+    queueTypeFlagText: string | null;
+    queuedBy: string | null;
+    receiptDate: string | null;
+    receiptDateShort: string | null;
+    requestedBy: string | null;
+    errorPageReviewed: false;
+    errorPageVendor: false;
+    hasTMSContent: false;
+    autoParsed: boolean;
+    assignmentReady: boolean;
+    errorPage: boolean;
+    markedForMT: boolean;
+    mpactionId: boolean;
+    onHold: boolean;
+    overduePage: boolean;
+    pageRejected: boolean;
+    pendingDeletion: boolean;
+    pendingReview: boolean;
+    seoPage: boolean;
+    specialEdit: boolean;
+    underReview: boolean;
+    webCATTParsed: boolean;
+    queueSync: boolean;
+    savedByContent: boolean;
+    isExpanded?: boolean;
 }
 
 interface TaskList extends Array<Task>{}
+
+interface ResponseData {
+    totalTasks: number;
+    tasks: TaskList;
+}
+
+interface AxiosResponse {
+    data: ResponseData
+}
 
 interface TasksState {
     tasks: TaskList;
@@ -35,10 +86,11 @@ const initialState: TasksState = {
 
 export const fetchTasks = createAsyncThunk(
     'tasks/fetchTasks',
+    //TODO: add interface for requestObject
     async (requestObject: any, thunkAPI) => {
-      const response = await api.fetchTasks(requestObject);
-      console.log(response.data);
-      return response.data;
+      const { data } : AxiosResponse = await api.fetchTasks(requestObject);
+      
+      return data;
     }
 )
 
