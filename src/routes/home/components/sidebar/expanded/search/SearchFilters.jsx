@@ -4,6 +4,10 @@ import { STANDARD_DROPDOWN_STYLES } from "../../../../../../constants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import {
+  RefreshIcon
+} from "@heroicons/react/outline";
+
 import PreferredSearchModal from '../preferredSearches/PreferredSearchModal';
 import { toggleModal } from '../preferredSearches/preferredSearchSlice';
 
@@ -103,6 +107,9 @@ const Search = () => {
 
       <div className="mt-2 px-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
         <div>
+          <div style={{ position: 'absolute', right: '0', marginRight: '15px', top: '70px' }}>
+            <RefreshIcon className="h-5 w-5 text-gray-400 cursor-pointer" />
+          </div>
           <label className="block text-xs font-medium text-gray-700 mb-1 mt-2">
             Translation Status
           </label>

@@ -1,3 +1,5 @@
+import { Outlet, Link } from "react-router-dom";
+
 import {
   LogoutIcon,
   SearchIcon,
@@ -87,14 +89,16 @@ const SlimSideBar = () => {
         onClick={() => handleSideBarExpanded(Tab.Search)}
       />
 
-      <ChartSquareBarIcon
-        data-for="sidebar"
-        data-tip="Dashboard"
-        data-iscapture="true"
-        className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={() => handleSideBarExpanded(Tab.Search)}
-      />
-
+      <Link to="/dashboard">
+        <ChartSquareBarIcon
+                data-for="sidebar"
+                data-tip="Dashboard"
+                data-iscapture="true"
+                className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+                onClick={() => handleSideBarExpanded(Tab.Search)}
+              />
+      </Link>
+      
       <CogIcon
         data-for="sidebar"
         data-tip="Settings"

@@ -9,6 +9,8 @@ import Footer from './components/footer/footer';
 
 const Home = lazy(() => import('./routes/home/home'));
 
+const Dashboard = lazy(() => import('./routes/dashboard/Dashboard'));
+
 const redirectUrl = process.env.NODE_ENV === 'production' ? CONTROL_CENTER_LOGIN_URL : '/#/login';
 
 const Redirect = () => {
@@ -48,6 +50,7 @@ const App = () => {
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Navigation />}>
                     <Route index element={<Home />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
                 </Route>
               </Route>
             
