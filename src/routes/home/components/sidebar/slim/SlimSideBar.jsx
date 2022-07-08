@@ -8,6 +8,10 @@ import {
   CogIcon
 } from "@heroicons/react/solid";
 
+import {
+  ChartSquareBarIcon
+} from "@heroicons/react/outline";
+
 import { setActiveTab } from "../sideBarSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
 import { selectSidebarOpen, handleSidebarOpenChange } from "../../sidebar/expanded/settings/settingsSlice";
@@ -78,6 +82,14 @@ const SlimSideBar = () => {
       <DocumentIcon
         data-for="sidebar"
         data-tip="New Text"
+        data-iscapture="true"
+        className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+        onClick={() => handleSideBarExpanded(Tab.Search)}
+      />
+
+      <ChartSquareBarIcon
+        data-for="sidebar"
+        data-tip="Dashboard"
         data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
         onClick={() => handleSideBarExpanded(Tab.Search)}

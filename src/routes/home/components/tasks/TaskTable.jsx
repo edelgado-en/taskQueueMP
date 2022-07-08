@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState, useRef } from "react";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 
-import {
+import  {
   selectTasks,
   selectSelectedTasks,
   setSelectedTasks,
@@ -36,12 +36,15 @@ import {
 
 import {
   DocumentIcon,
+  DownloadIcon,
+  GlobeAltIcon
 } from "@heroicons/react/outline";
 
 import ReactTimeAgo from 'react-time-ago'
 import TaskActivity from "./activity/TaskActivity";
 import TaskComment from "./comment/TaskComment";
 import Spinner from '../../../../components/spinner/Spinner';
+import NoResultsFound from './NoResultsFound';
 
 const TableHeader = ({ name }) => {
   return (
@@ -117,7 +120,7 @@ console.log(tasks)
     <>
     { loading && <div className="text-center pt-64"><Spinner /></div> }
 
-    { (!loading && tasks.length == 0 ) && <div className="text-center pt-64">TODO: Add component for No tasks found message</div> }
+    { (!loading && tasks.length == 0 ) && <NoResultsFound /> }
 
     { (!loading && tasks.length > 0) && 
       <table className="divide-y divide-gray-300 w-full" style={{ marginTop: "66px" }}>
@@ -219,6 +222,13 @@ console.log(tasks)
               
               {includeUrls && 
                 <td className="whitespace-nowrap px-1 py-1.5 text-xs text-black-500">
+                  <span style={{ display: 'inline-block', position: 'relative', top: '4px' }}>
+                    {task.savedByContent ? 
+                      <DownloadIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400 cursor-pointer" />
+                      :
+                      <GlobeAltIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400 cursor-pointer" />
+                    }
+                  </span>
                   <input type="text"
                        value={task.url} 
                        onChange={() => {}}

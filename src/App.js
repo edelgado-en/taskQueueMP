@@ -37,6 +37,7 @@ const App = () => {
 
   return (
     <>
+    {/* TODO: add session timeout modal window functionality */}
       <Suspense fallback={<Fallback />}>
         {/* You need to have a wrapper here with a content and a footer for the footer to be sticky */}
         <div className="flex flex-col min-h-screen">

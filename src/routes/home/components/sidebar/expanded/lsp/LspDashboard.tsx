@@ -95,7 +95,7 @@ const LspDashboard = () => {
           >
             <dt className="text-base font-normal text-gray-900">{item.name}</dt>
             <div className="mt-1 flex justify-between items-baseline md:block lg:flex">
-              <div className="flex items-baseline text-xl font-semibold text-indigo-600">
+              <div className="flex items-baseline text-xl font-semibold text-blue-600">
                 {item.stat}
                 <span className="ml-2 text-sm text-gray-500">tasks</span>
               </div>
