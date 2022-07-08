@@ -38,6 +38,20 @@ export default function Example() {
             </dd>
           </div>
           <div className="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt className="text-sm font-medium text-gray-500">HP Guidelines</dt>
+            <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <span className="flex-grow">Translated homepage mimics origin homepage</span>
+              <span className="ml-4 flex-shrink-0">
+                <button
+                  type="button"
+                  className="bg-white rounded-md font-medium text-blue-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Update
+                </button>
+              </span>
+            </dd>
+          </div>
+          <div className="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium text-gray-500">WE, QA, PM, SDM:</dt>
             <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               <span className="flex-grow">WE: Richard |QA: Pilar |SDM: Audra</span>
@@ -70,6 +84,22 @@ export default function Example() {
             <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               <span className="flex-grow">
                 Shared database? Self hosted? Leave on top if the information is VERY important for the account (Ex. Ecolab)
+              </span>
+              <span className="ml-4 flex-shrink-0">
+                <button
+                  type="button"
+                  className="bg-white rounded-md font-medium text-blue-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Update
+                </button>
+              </span>
+            </dd>
+          </div>
+          <div className="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt className="text-sm font-medium text-gray-500">TM2 Tickets</dt>
+            <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <span className="flex-grow">
+              Ticket#942365.13,942365.21
               </span>
               <span className="ml-4 flex-shrink-0">
                 <button
