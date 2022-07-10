@@ -7,6 +7,8 @@ import { isUserAuthenticated } from './localstorage';
 import './App.css';
 import Footer from './components/footer/footer';
 
+import { ToastContainer } from 'react-toastify';
+
 const Home = lazy(() => import('./routes/home/home'));
 
 const Dashboard = lazy(() => import('./routes/dashboard/Dashboard'));
@@ -41,6 +43,7 @@ const App = () => {
     <>
     {/* TODO: add session timeout modal window functionality */}
       <Suspense fallback={<Fallback />}>
+        <ToastContainer autoClose={2000} />
         {/* You need to have a wrapper here with a content and a footer for the footer to be sticky */}
         <div className="flex flex-col min-h-screen">
           <div className="flex-grow">

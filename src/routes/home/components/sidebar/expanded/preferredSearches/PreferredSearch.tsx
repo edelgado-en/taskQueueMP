@@ -50,7 +50,6 @@ const PreferredSearch = () => {
                                     <a href="#" className="focus:outline-none">
                                         <span className="absolute inset-0" />
                                         <p className="text-xs font-medium text-gray-900">{search.name}</p>
-                                        {/* <p className="text-xs text-gray-500 truncate">{search.name}</p> */}
                                     </a>
                                 </div>
                                 <div className="basis-[30%] text-right">

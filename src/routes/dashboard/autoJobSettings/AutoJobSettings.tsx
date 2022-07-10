@@ -7,6 +7,8 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
+/* TODO: Refactor this file */
+
 const AutoJobSettings = () => {
     const [availableToHire, setAvailableToHire] = useState(true)
     const [privateAccount, setPrivateAccount] = useState(false)
