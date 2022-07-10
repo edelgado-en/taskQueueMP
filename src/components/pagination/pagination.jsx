@@ -13,62 +13,24 @@ import {
     fetchTasks
 } from "../../routes/home/components/tasks/tasksSlice";
 
-import { selectFilters } from '../../routes/home/components/sidebar/expanded/search/searchSlice';
-
 const PaginationContainer = () => {
     const loading = useAppSelector(selectLoading);
     const activePage = useAppSelector(selectActivePage);
     const totalTasks = useAppSelector(selectTotalTasks);
     const pageSize = useAppSelector(selectPageSize);
-    const { 
-        selectedStatus,
-        selectedAssignmentStatus,
-        selectedTranslationType,
-        selectedFlag,
-        selectedTATStatus,
-        selectedContentType,
-        selectedPriority,
-        selectedInternalReviewer,
-        selectedRequestedBy,
-        startQueueDate,
-        endQueueDate
-    
-    } = useAppSelector(selectFilters);
 
     const dispatch = useAppDispatch();
 
     const handlePageChange = (page) => {
         dispatch(setActivePage(page));
 
-        const requestObject = {
-            assignmentStatusIdSelected: selectedAssignmentStatus.value,
-            translationStatusIdSelected: selectedStatus.value,
-            contentTypeIdSelected: selectedContentType.value,
-            translationTypeIdSelected: selectedTranslationType.value,
-            seoMode: false,
-            pageSize: pageSize.value,
-            activePage: page
-        }
-
-        dispatch(fetchTasks(requestObject))
+        dispatch(fetchTasks())
     }
 
     const handlePageSizeChange = (size) => {
         dispatch(setPageSize(size));
 
-        //TODO: to avoid having to repeat this requestObject, put it in a function in a util file
-
-        const requestObject = {
-            assignmentStatusIdSelected: selectedAssignmentStatus.value,
-            translationStatusIdSelected: selectedStatus.value,
-            contentTypeIdSelected: selectedContentType.value,
-            translationTypeIdSelected: selectedTranslationType.value,
-            seoMode: false,
-            pageSize: size.value,
-            activePage
-        }
-
-        dispatch(fetchTasks(requestObject))
+        dispatch(fetchTasks())
     }
 
     return (

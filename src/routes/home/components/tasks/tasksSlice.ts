@@ -86,9 +86,22 @@ const initialState: TasksState = {
 
 export const fetchTasks = createAsyncThunk(
     'tasks/fetchTasks',
-    //TODO: add interface for requestObject
-    async (requestObject: any, thunkAPI) => {
-      const { data } : AxiosResponse = await api.fetchTasks(requestObject);
+
+    async (_, thunkAPI) => {
+
+        const { search, tasks } : any = thunkAPI.getState();
+
+        const request = {
+            assignmentStatusIdSelected: search.selectedAssignmentStatus.value,
+            translationStatusIdSelected: search.selectedStatus.value,
+            contentTypeIdSelected: search.selectedContentType.value,
+            translationTypeIdSelected: search.selectedTranslationType.value,
+            seoMode: false,
+            pageSize: tasks.pageSize.value,
+            activePage: tasks.activePage
+        }
+
+        const { data } : AxiosResponse = await api.fetchTasks(request);
       
       return data;
     }

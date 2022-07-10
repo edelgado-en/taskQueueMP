@@ -20,10 +20,9 @@ import {
   selectFilters
 } from "./searchSlice";
 
-import { fetchTasks, selectPageSize, setActivePage } from '../../../tasks/tasksSlice';
+import { fetchTasks, setActivePage } from '../../../tasks/tasksSlice';
 
 const Search = () => {
-  const pageSize = useAppSelector(selectPageSize);
   const dispatch = useAppDispatch();
   
   const { 
@@ -87,17 +86,7 @@ const Search = () => {
   const handleSearch = () => {
     dispatch(setActivePage(1));
 
-    const requestObject = {
-      seoMode: false,
-      pageSize: pageSize.value,
-      activePage: 1,
-      assignmentStatusIdSelected: selectedAssignmentStatus.value,
-      translationStatusIdSelected: selectedStatus.value,
-      contentTypeIdSelected: selectedContentType.value,
-      translationTypeIdSelected: selectedTranslationType.value
-    }
-
-    dispatch(fetchTasks(requestObject))
+    dispatch(fetchTasks())
 
   };
 
