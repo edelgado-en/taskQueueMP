@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../../services/httpService';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 type FormValues = {
   userName: string,
@@ -10,6 +11,7 @@ type FormValues = {
 }
 
 const Login = () => {
+    const [ loading, setLoading ] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
 
     const navigate = useNavigate();
@@ -26,8 +28,9 @@ const Login = () => {
         handleLogin(data);
     })
 
-    //TODO: ADD TOAST TO SHOW ERROR WHEN LOGIN FAILS. ADD LOADING SPINNER ON BUTTON TO DISABLE IT
     const handleLogin = async (data: FormValues) => {
+        setLoading(true);
+
         const { userName, password, queue } = data;
 
         // Base64 encode
@@ -56,102 +59,110 @@ const Login = () => {
             tokenSuccessful = true;
 
         } catch (e) {
-            //toast.error('Unable to login'); //TODO: SETUP TOAST
-            console.log(e);
-            
+            toast.error('Unable to login');
+            setLoading(false);
         }
 
         if (tokenSuccessful) {
-            const queueResponse = await api.get(`/queues/${queue}`);
-            const userResponse = await api.get(`/users/${userName}`);
+
+            try {
+              const queueResponse = await api.get(`/queues/${queue}`);
+              const userResponse = await api.get(`/users/${userName}`);
+              
+              const customerId = queue.substring(queue.lastIndexOf(".") + 1);
+              const languagesResponse = await api.post(`/customerlanguages/${customerId}`);
+  
+              let queues: any = [];
+  
+              languagesResponse.data.forEach(function(language: any) {
+                  const value = language.queueName.toLowerCase();
+                  const label = language.sourceLanguageName + ' - '
+                               + language.targetLanguageName
+                               + (language.targetCountryName ? ' - ' + language.targetCountryName : '');  
+                  
+                  queues.push({ value, label });
+              });
+  
+              const body = queueResponse.data;
+              const userData = userResponse.data;
+  
+              const names = userData.name.split(' ');
+              let initials = names[0].substring(0, 1).toUpperCase();
+                  
+              if (names.length > 1) {
+                  initials += names[names.length - 1].substring(0, 1).toUpperCase();
+              }
+  
+              const userInfo = {
+                  name: userData.name,
+                  userInitials: initials,
+                  email: userData.email,
+                  accessLevelId: userData.accessLevel.id,
+                  accessLevelName: userData.accessLevel.name
+              }
+  
+              const sourceLanguage = {
+                  code: body.sourceLanguage.code,
+                  name: body.sourceLanguage.name
+              }
+  
+              const targetLanguage = {
+                  code: body.targetLanguage.code,
+                  name: body.targetLanguage.name
+              }
+  
+              const targetCountry = {
+  
+              };
+  
+              //TODO: support country
+             /*  if (body.targetCountry) {
+                  targetCountry.code = body.targetCountry.code,
+                  targetCountry.name = body.targetCountry.name
+              } */
+              
+              const customer = {
+                  customerId: customerId,
+                  companyName: body.customer.companyName
+              }
+  
+              const project = {
+                  name: body.customer.companyName,
+                  sourceLanguage,
+                  targetLanguage,
+                  targetCountry,
+                  isCustomerUser: false,
+                  customer
+              }
+  
+              const sessionInfo = {
+                  name: userData.name,
+                  userId: userData.id,
+                  token,
+                  queue,
+                  queues,
+                  userName,
+                  project,
+                  userInfo,
+                  languagePairs: languagesResponse.data,
+                  role: userData.accessLevel.name,
+                  friendlyUserRole: userData.accessLevel.name
+              };
+  
+              //TODO: DISPATCH THE SESSIONINFO TO REDUX SO THAT OYU CAN ACCESS FROM ANYWHERE
+  
+              // ls.session is the name used in the other Motioncore bench applications
+              sessionStorage.setItem('ls.session', JSON.stringify(sessionInfo));
+  
+              setLoading(false);
+  
+              navigate('/');
+
+            } catch (e) {
+              toast.error('Unable to login')
+              setLoading(false);
+            }
             
-            const customerId = queue.substring(queue.lastIndexOf(".") + 1);
-            const languagesResponse = await api.post(`/customerlanguages/${customerId}`);
-
-            let queues: any = [];
-
-            languagesResponse.data.forEach(function(language: any) {
-                const value = language.queueName.toLowerCase();
-                const label = language.sourceLanguageName + ' - '
-                             + language.targetLanguageName
-                             + (language.targetCountryName ? ' - ' + language.targetCountryName : '');  
-                
-                queues.push({ value, label });
-            });
-
-            const body = queueResponse.data;
-            const userData = userResponse.data;
-
-            const names = userData.name.split(' ');
-            let initials = names[0].substring(0, 1).toUpperCase();
-                
-            if (names.length > 1) {
-                initials += names[names.length - 1].substring(0, 1).toUpperCase();
-            }
-
-            const userInfo = {
-                name: userData.name,
-                userInitials: initials,
-                email: userData.email,
-                accessLevelId: userData.accessLevel.id,
-                accessLevelName: userData.accessLevel.name
-            }
-
-            const sourceLanguage = {
-                code: body.sourceLanguage.code,
-                name: body.sourceLanguage.name
-            }
-
-            const targetLanguage = {
-                code: body.targetLanguage.code,
-                name: body.targetLanguage.name
-            }
-
-            const targetCountry = {
-
-            };
-
-            //TODO: support country
-           /*  if (body.targetCountry) {
-                targetCountry.code = body.targetCountry.code,
-                targetCountry.name = body.targetCountry.name
-            } */
-            
-            const customer = {
-                customerId: customerId,
-                companyName: body.customer.companyName
-            }
-
-            const project = {
-                name: body.customer.companyName,
-                sourceLanguage,
-                targetLanguage,
-                targetCountry,
-                isCustomerUser: false,
-                customer
-            }
-
-            const sessionInfo = {
-                name: userData.name,
-                userId: userData.id,
-                token,
-                queue,
-                queues,
-                userName,
-                project,
-                userInfo,
-                languagePairs: languagesResponse.data,
-                role: userData.accessLevel.name,
-                friendlyUserRole: userData.accessLevel.name
-            };
-
-            //TODO: DISPATCH THE SESSIONINFO TO REDUX SO THAT OYU CAN ACCESS FROM ANYWHERE
-
-            // ls.session is the name used in the other Motioncore bench applications
-            sessionStorage.setItem('ls.session', JSON.stringify(sessionInfo));
-
-            navigate('/');
-
         }
     }
 
@@ -212,6 +223,7 @@ const Login = () => {
                         <input
                           id="queue"
                           type="text"
+                          placeholder='en.es.938'
                           {...register('queue', { required: 'Queue is required' })}
                           className="appearance-none block w-full px-3 py-2 border
                                     border-gray-300 rounded-md shadow-sm placeholder-gray-400
@@ -224,12 +236,13 @@ const Login = () => {
                     <div>
                       <button
                         type="submit"
+                        disabled={loading}
                         className="w-full flex justify-center py-2 px-4 border
                                   border-transparent rounded-md shadow-sm text-sm font-medium
                                 text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
                                   focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
-                        Sign in
+                        {loading ? 'sigining in...' : 'Sign in'}
                       </button>
                     </div>
                   </form>

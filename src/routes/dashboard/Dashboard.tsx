@@ -20,14 +20,14 @@ const navigation = [
 ]
 
 const subNavigation = [
-  { name: 'Project Overview', href: '#', icon: DocumentTextIcon, current: true },
-  { name: 'Pending Items', href: '#', icon: ExclamationCircleIcon, current: false },
-  { name: 'Customer Features', href: '#', icon: UserIcon, current: false },
-  { name: 'Project Settings', href: '#', icon: CogIcon, current: false },
-  { name: 'Job Features', href: '#', icon: CollectionIcon, current: false },
-  { name: 'Job Settings', href: '#', icon: BriefcaseIcon, current: false },
-  { name: 'LSP Management', href: '#', icon: UsersIcon, current: false },
-  { name: 'TServer Info', href: '#', icon: ServerIcon, current: false },
+  { name: 'Project Overview', icon: DocumentTextIcon, current: true },
+  { name: 'Pending Items', icon: ExclamationCircleIcon, current: false },
+  { name: 'Customer Features', icon: UserIcon, current: false },
+  { name: 'Project Settings', icon: CogIcon, current: false },
+  { name: 'Job Features', icon: CollectionIcon, current: false },
+  { name: 'Job Settings', icon: BriefcaseIcon, current: false },
+  { name: 'LSP Management', icon: UsersIcon, current: false },
+  { name: 'TServer Info', icon: ServerIcon, current: false },
 ]
 
 const Dashboard = () => {
@@ -104,13 +104,12 @@ const Dashboard = () => {
               <aside className="py-6 lg:col-span-3">
                 <nav className="space-y-1">
                   {subNavigation.map((item) => (
-                    <a
+                    <span
                       key={item.name}
-                      href={item.href}
                       className={`${item.current 
                         ? 'bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700'
                         : 'border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900'}
-                        group border-l-4 px-3 py-2 flex items-center text-sm font-medium`}
+                        group border-l-4 px-3 py-2 flex items-center text-sm font-medium cursor-pointer`}
                     >
                       <item.icon
                         className={`${item.current 
@@ -119,7 +118,7 @@ const Dashboard = () => {
                             flex-shrink-0 -ml-1 mr-3 h-6 w-6`}
                       />
                       <span className="truncate">{item.name}</span>
-                    </a>
+                    </span>
                   ))}
                 </nav>
               </aside>

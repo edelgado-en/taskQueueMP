@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../../../../app/store";
 import { statuses, assignmentStatuses, translationTypes,
      TATStatuses, flags, contentTypes,
-      priorities, internalReviewers, requestedBy
+      priorities, projectCodes, internalReviewers, requestedBy
 } from './dropdown-data';
 
 export interface DropdownOption {
@@ -30,11 +30,13 @@ interface SearchState {
     selectedContentType: DropdownOption,
     priorities: Array<DropdownOption>
     selectedPriority: DropdownOption,
+    projectCodes: Array<DropdownOption>,
+    selectedProjectCode: DropdownOption,
     internalReviewers: Array<DropdownOption>,
     selectedInternalReviewer: DropdownOption,
     requestedBy: Array<DropdownOption>,
     selectedRequestedBy: DropdownOption,
-    startQueueDate: number | null, //save it as timestamp because Date object are not serializable
+    startQueueDate: number | null, //save it as timestamp because Date objects are not serializable
     endQueueDate: number | null,
     seoMode: boolean
 }
@@ -47,6 +49,7 @@ const initialState: SearchState = {
     flags,
     contentTypes,
     priorities,
+    projectCodes,
     internalReviewers,
     requestedBy,
     selectedTranslationType: translationTypes[0],
@@ -55,6 +58,7 @@ const initialState: SearchState = {
     selectedTATStatus: TATStatuses[0],
     selectedContentType: contentTypes[0],
     selectedPriority: priorities[0],
+    selectedProjectCode: projectCodes[0],
     selectedInternalReviewer: internalReviewers[0],
     selectedRequestedBy: requestedBy[0],
     selectedFlag: flags[0],
@@ -83,7 +87,6 @@ export const searchSlice = createSlice({
         },
 
         resetAllFields: (state) => {
-            //state = initialState won't work because immer tracks mutations, and you are only doing one assignment
             return initialState;
         }
     }

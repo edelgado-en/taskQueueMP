@@ -67,8 +67,6 @@ const TaskTable = () => {
   const includeUrls = useAppSelector(selectIncludeUrls);
   const includeFiles = useAppSelector(selectIncludeFiles);
 
-console.log(tasks)
-
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
 

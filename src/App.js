@@ -8,9 +8,9 @@ import './App.css';
 import Footer from './components/footer/footer';
 
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = lazy(() => import('./routes/home/home'));
-
 const Dashboard = lazy(() => import('./routes/dashboard/Dashboard'));
 
 const redirectUrl = process.env.NODE_ENV === 'production' ? CONTROL_CENTER_LOGIN_URL : '/#/login';

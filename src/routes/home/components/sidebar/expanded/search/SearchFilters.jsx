@@ -40,6 +40,8 @@ const Search = () => {
     selectedContentType,
     priorities,
     selectedPriority,
+    projectCodes,
+    selectedProjectCode,
     internalReviewers,
     selectedInternalReviewer,
     requestedBy,
@@ -90,6 +92,14 @@ const Search = () => {
 
   };
 
+/*   const colourOptions = [
+    { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
+    { value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
+    { value: 'purple', label: 'Purple', color: '#5243AA' },
+    { value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
+    { value: 'orange', label: 'Orange', color: '#FF8B00' }
+  ] */
+
   return (
     <>
       <PreferredSearchModal />
@@ -97,7 +107,7 @@ const Search = () => {
       <div className="mt-2 px-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
         <div>
           <div style={{ position: 'absolute', right: '0', marginRight: '15px', top: '70px' }}>
-            <RefreshIcon className="h-5 w-5 text-gray-400 cursor-pointer" />
+            <RefreshIcon onClick={handleResetFormFields}  className="h-5 w-5 text-gray-400 cursor-pointer" />
           </div>
           <label className="block text-xs font-medium text-gray-700 mb-1 mt-2">
             Translation Status
@@ -144,7 +154,7 @@ const Search = () => {
           />
 
           <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-            Flags
+            Handling Flags
           </label>
           <Select
             maxMenuHeight={850}
@@ -153,6 +163,15 @@ const Search = () => {
             onChange={(option) => handleChange(option, "selectedFlag")}
             options={flags}
           />
+            {/* <Select
+              isMulti
+              name="colors"
+              value={[]}
+              options={colourOptions}
+              className="basic-multi-select"
+              classNamePrefix="select"
+            /> */}
+
 
           <div className="w-full border-t border-gray-300 my-5" />
 
@@ -243,6 +262,17 @@ const Search = () => {
                 value={selectedPriority}
                 onChange={(option) => handleChange(option, "selectedPriority")}
                 options={priorities}
+              />
+
+              <label className="block text-xs font-medium text-gray-700 mt-3">
+                Project Code
+              </label>
+              <Select
+                maxMenuHeight={850}
+                styles={STANDARD_DROPDOWN_STYLES}
+                value={selectedProjectCode}
+                onChange={(option) => handleChange(option, "selectedPriority")}
+                options={projectCodes}
               />
 
               <label className="block text-xs font-medium text-gray-700 mt-3">

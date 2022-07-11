@@ -33,10 +33,16 @@ export const TATStatuses = [
 
 export const flags = [
     { value: -1, label: "All" },
-    { value: 1, label: "Flag 1" },
-    { value: 2, label: "Flag 2" },
-    { value: 3, label: "Flag 3" },
-    { value: 4, label: "Flag 4" }
+    { value: 1, label: "Special Edit" },
+    { value: 2, label: "Auto Parsed" },
+    { value: 4, label: "WebCATT Parsed" },
+    { value: 32, label: "Under Review" },
+    { value: 1073741824, label: "Assignment Ready" },
+    { value: 64, label: "Error Page" },
+    { value: 131072, label: "Error Page Reviewed" },
+    { value: 65536, label: "Error Page Vendor" },
+    { value: 32, label: "Under Review" },
+    { value: 4096, label: "On Hold" }
 ]
 
 export const contentTypes = [
@@ -56,6 +62,13 @@ export const priorities = [
     { value: 1, label: "Priority 1" },
     { value: 2, label: "Priority 2" },
     { value: 3, label: "Priority 3" }
+]
+
+export const projectCodes = [
+    { value: -1, label: "All" },
+    { value: 1, label: "Project Code 1" },
+    { value: 2, label: "Project Code 2" },
+    { value: 3, label: "Project Code 3" }
 ]
 
 export const internalReviewers = [
