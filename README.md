@@ -5,34 +5,37 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Quick Features
 
 - React 18
-- TailwindCSS
-- Typescript
-- Heroicons
-- HeadlessUI
-- React Router V6
 - [React Suspense](https://reactjs.org/docs/concurrent-mode-suspense.html) + Fetch-As-You-Render Query Prefetching
-
-- Development Mode (npm start) comes with a login screen, so that you don't have to run ControlCenter or TPM. You just need to run the corresponding backend services
+- React Router V6
+- TailwindCSS
+- HeadlessUI
+- Heroicons
+- Typescript
+- Development Mode (npm start) comes with a login screen, so that you don't have to run ControlCenter or TPM. You just need to run the corresponding backend services:
+  (API-Registy, API-Gateway, PortalService, TranslationService, TServer maching your queue)
 
 ## Important Notes
 
-- All business logic should be in the backend. The resources should be returned in the form that they are expecting to be used.
+- All business logic should be in the backend. The resources should be returned in the form that they are meant to be used.
   For example: Instead of return a numerical value for user access level, return booleans (ie. isContractorManager, isInternalUser, etc.). The client does not need to know how to calculate those values.
 
-- Only save state in an RTK slice when you actually need to share states between components. Otherwise just use useState and pass it down via
-  simple props.
+- Only save state in an RTK slice when you actually need to share states between components. Otherwise just use useState and pass it down via simple props.
 
 - When creatig new files, make sure they have the extension .ts or .tsx. Let Typescript use INFERENCE as much as possible; there is no need to add unnecessary types that provide no value. Here is an example of inference where there is no need to add a type.
 
   `const options = [ { value: 1, label: "Me" }, { value: 2, label: "Super Alejandro" }, { value: 3, label: "Rebeca Castillo" }, { value: 4, label: "Sandra Manager" }, ]`
 
-- Don't add types/interfaces in a standalone file. Add them wherever you are actually using them. If you need to use the type somewhere else (which is not common because of inference) just make it public and export it
+- Don't add types/interfaces in a standalone file. Add them wherever you are actually using them. If you need to use the type somewhere else (which is not common because of inference) just make it public and export it. Just use interfaces for the most part. Here a quick explanation of the difference between interface and type:
+
+  - Interfaces are basically a way to describe data shapes, for example, an object.
+
+  - Type is a definition of a type of data, for example, a union, primitive, intersection, tuple, or any other type.
 
 - Whenever you are building an actual reusable component like a switch button, put it in the components top level folder, otherwise put it where you are actually using it.
 
-- This project uses headless ui for a component library. You don't have to use it but it is there for your convenience. DO NOT add other components libraries like Reactstrap or React-Bootstrap
+- This project uses headless ui for a component library. You don't have to use it but it is there for your convenience. Headlessui is a set of completely unstyled, fully accessible UI components, designed to integrate beautifully with Tailwind CSS. DO NOT add other components libraries like Reactstrap or React-Bootstrap
 
-- This project uses heroicons, which is built by the same creators of Tailwind. Refers to heroicons.com. Do not use Fontawesome
+- This project uses Heroicons, which is built by the same creators of Tailwind. Refers to heroicons.com. Do not use Fontawesome
 
 - When adding new routes to App.js, ensure to use React Lazy to avoid loading unnecessary bundles and increase performance
 
@@ -52,7 +55,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - We are using RTK thunks to handle async API calls that need to update RTK store. Do not use Sagas. We might switch to react-query later on. Keep in mind that react-query is an abstraction on top of RTK, so it will essentially replace it.
 
-- Do not add css files. If you need to add some css class because you are using some library that doesn't support Tailwind, then simply add it to the existing App.css file.
+- Do not add css files. If you need to add some css class because you are using some library that doesn't support Tailwind (like in the case of React-Select), then simply add it to the existing App.css file.
 
 ## Available Scripts
 

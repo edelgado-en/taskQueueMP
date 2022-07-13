@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import { loadTextBenchSession } from '../localstorage';
 import { API_BASE_URL,
@@ -58,8 +59,7 @@ axios.interceptors.response.use(null, (error) => {
         && error.response.status < 500;
 
     if (!expectedError) {
-        //TODO: SETUP TOAST
-        //toast.error('An unexpected error occurred');
+        toast.error('An unexpected error occurred');
     }
 
     // this will return control to the caller

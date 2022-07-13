@@ -72,6 +72,8 @@ interface TasksState {
     activePage: number;
     pageSize: PageSize;
     loading: boolean;
+    //to be used when you want to prevent other actions while loading
+    actionLoading: boolean; 
     selectedTasks: TaskList;
 } 
 
@@ -81,6 +83,7 @@ const initialState: TasksState = {
     activePage: 1,
     pageSize: { value: 100, label: 'Show 100' },
     loading: false,
+    actionLoading: false,
     selectedTasks: []
 }
 
@@ -96,14 +99,14 @@ export const fetchTasks = createAsyncThunk(
             translationStatusIdSelected: search.selectedStatus.value,
             contentTypeIdSelected: search.selectedContentType.value,
             translationTypeIdSelected: search.selectedTranslationType.value,
-            seoMode: false,
+            seoMode: false, //TODO: YOu need to add this filter to the search TM-6318
             pageSize: tasks.pageSize.value,
             activePage: tasks.activePage
         }
 
         const { data } : AxiosResponse = await api.fetchTasks(request);
       
-      return data;
+        return data;
     }
 )
 
@@ -153,8 +156,10 @@ export const TasksSlice = createSlice({
         },
         setActivePage: (state, action:PayloadAction<number>) => {
             state.activePage = action.payload;
+        },
+        setActionLoading: (state, action:PayloadAction<boolean>) => {
+            state.actionLoading = action.payload;
         }
-        
 
     },
     extraReducers: (builder) => {
@@ -172,7 +177,8 @@ export const TasksSlice = createSlice({
             state.tasks = [];
             state.totalTasks = 0;
             state.loading = false;
-            //set error message. You don't want to show a toast for this error. Is better to show an actual static error message.
+            //set error message. You don't want to show a toast for this error. Is better to show an actual static error message so that the user can see what is wrong
+            //take a screenshot and send it to the support team.
         })
     }
 });
@@ -184,7 +190,8 @@ export const {
     expandTask,
     closeTask,
     setPageSize,
-    setActivePage
+    setActivePage,
+    setActionLoading
 } = TasksSlice.actions;
 
 export const selectTasks = (state: RootState) => state.tasks.tasks;
@@ -192,6 +199,7 @@ export const selectTotalTasks = (state: RootState) => state.tasks.totalTasks;
 export const selectActivePage = (state: RootState) => state.tasks.activePage;
 export const selectPageSize = (state: RootState) => state.tasks.pageSize;
 export const selectLoading = (state: RootState) => state.tasks.loading;
+export const selectActionLoading = (state: RootState) => state.tasks.actionLoading;
 export const selectSelectedTasks = (state: RootState) => state.tasks.selectedTasks;
 
 export default TasksSlice.reducer;
