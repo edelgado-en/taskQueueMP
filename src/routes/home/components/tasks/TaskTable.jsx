@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useRef } from "react";
+import React, { useLayoutEffect, useState, useRef, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 
 import  {
@@ -56,7 +56,7 @@ const TableHeader = ({ name }) => {
   )
 }
 
-const TaskTable = () => {
+const TaskTable = ({ handleOpenTasks }) => {
   const checkbox = useRef();
   const dispatch = useAppDispatch();
   const tasks = useAppSelector(selectTasks);
@@ -66,7 +66,7 @@ const TaskTable = () => {
   const compactRows = useAppSelector(selectCompactRows);
   const includeUrls = useAppSelector(selectIncludeUrls);
   const includeFiles = useAppSelector(selectIncludeFiles);
-
+  const [shouldOpenTasks, setShouldOpenTasks] = useState(false);
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
 
@@ -85,6 +85,11 @@ const TaskTable = () => {
 
   }, [selectedTasks, tasks]);
 
+  useEffect(() => {
+    if (shouldOpenTasks) {
+      handleOpenTasks();
+    }
+  }, [selectedTasks]);
 
   const toggleAll = () => {
     const newTasks = checked || indeterminate ? [] : tasks;
@@ -104,18 +109,27 @@ const TaskTable = () => {
     }
   };
 
-
   const handleExpandTask = (task) => {
     dispatch(expandTask(task));
   };
-
 
   const handleCloseTask = (task) => {
     dispatch(closeTask(task));
   };
 
+  const handleOpenTask = (task) => {
+    if (!selectedTasks.includes(task)) {
+      setShouldOpenTasks(true);
+      dispatch(addSelectedTask(task));
+    } else {
+      handleOpenTasks();
+    }
+  };
+
   return (
     <>
+    {/* TODO: Add static error message when you are unable to fetch tasks. Set it in the tasksSlice.ts */}
+
     { loading && <div className="text-center pt-64"><Spinner /></div> }
 
     { (!loading && tasks.length == 0 ) && <NoResultsFound /> }
@@ -191,7 +205,7 @@ const TaskTable = () => {
               <td className={`whitespace-nowrap text-xs font-medium
                            ${!compactRows ? 'py-3' : ''}
                            ${selectedTasks.includes(task) ? 'text-blue-600' : 'text-gray-900'}`}>
-                <span className="font-medium text-sky-600 truncate cursor-pointer">
+                <span className="font-medium text-sky-600 truncate cursor-pointer" onClick={() => handleOpenTask(task)}>
                   {task.id}
                 </span>
               </td>

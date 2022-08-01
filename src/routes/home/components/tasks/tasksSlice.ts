@@ -94,14 +94,26 @@ export const fetchTasks = createAsyncThunk(
 
         const { search, tasks } : any = thunkAPI.getState();
 
-        const request = {
+        const request: any = {
             assignmentStatusIdSelected: search.selectedAssignmentStatus.value,
             translationStatusIdSelected: search.selectedStatus.value,
             contentTypeIdSelected: search.selectedContentType.value,
             translationTypeIdSelected: search.selectedTranslationType.value,
-            seoMode: false, //TODO: YOu need to add this filter to the search TM-6318
+            pendingDeletionIdSelected: search.selectedPendingDeletionStatus.value,
+            selectedTaskIds: search.selectedIds,
+            selectedTaskUrlsPattern: search.selectedTaskUrlsPattern,
+            excludeUrls: search.excludeUrls,
+            seoMode: false, //TODO: YOu need to add this filter to the search. TM-6318
             pageSize: tasks.pageSize.value,
             activePage: tasks.activePage
+        }
+
+        if (search.startQueueDate) {
+            request.queueStartDate = new Date(search.startQueueDate);
+        }
+
+        if (search.endQueueDate) {
+            request.queueEndDate = new Date(search.endQueueDate);
         }
 
         const { data } : AxiosResponse = await api.fetchTasks(request);
@@ -165,6 +177,7 @@ export const TasksSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchTasks.pending, (state, action) => {
             state.tasks = [];
+            state.selectedTasks = [];
             state.totalTasks = 0;
             state.loading = true;
         })
@@ -172,12 +185,14 @@ export const TasksSlice = createSlice({
             state.loading = false;
             state.tasks = action.payload.tasks;
             state.totalTasks = action.payload.totalTasks;
+            state.selectedTasks = [];
         })
         .addCase(fetchTasks.rejected, (state, action) => {
             state.tasks = [];
+            state.selectedTasks = [];
             state.totalTasks = 0;
             state.loading = false;
-            //set error message. You don't want to show a toast for this error. Is better to show an actual static error message so that the user can see what is wrong
+            //TODO: set error message. You don't want to show a toast for this error. Is better to show an actual static error message so that the user can see what is wrong
             //take a screenshot and send it to the support team.
         })
     }

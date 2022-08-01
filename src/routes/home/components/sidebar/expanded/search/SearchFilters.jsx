@@ -3,29 +3,36 @@ import Select from "react-select";
 import { STANDARD_DROPDOWN_STYLES } from "../../../../../../constants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-import {
-  RefreshIcon
-} from "@heroicons/react/outline";
-
+import { QuestionMarkCircleIcon, RefreshIcon } from "@heroicons/react/outline";
 import PreferredSearchModal from '../preferredSearches/PreferredSearchModal';
-import { toggleModal } from '../preferredSearches/preferredSearchSlice';
-
+import { setModal, ModalType } from '../../../../../../components/modal/modalSlice';
 import { useAppSelector, useAppDispatch } from "../../../../../../app/hooks";
+import { fetchTasks, setActivePage } from '../../../tasks/tasksSlice';
+
 import {
   handleDropdownChange,
   handleStartDateChange,
   handleEndDateChange,
+  handleIdChange,
+  handleUrlsChange,
+  handleExcludeUrlsChange,
   resetAllFields,
   selectFilters
 } from "./searchSlice";
+import ReactTooltip from "react-tooltip";
 
-import { fetchTasks, setActivePage } from '../../../tasks/tasksSlice';
+const Label = ({ name }) => {
+  return (
+    <label className="block text-xs font-medium text-gray-700 mt-2 mb-1 ">
+      { name }
+    </label>
+  )
+}
 
 const Search = () => {
   const dispatch = useAppDispatch();
   
-  const { 
+  let { 
     statuses,
     selectedStatus,
     assignmentStatuses,
@@ -47,7 +54,11 @@ const Search = () => {
     requestedBy,
     selectedRequestedBy,
     startQueueDate,
-    endQueueDate
+    endQueueDate,
+    pendingDeletionStatuses,
+    selectedPendingDeletionStatus,
+    selectedIds,
+    selectedTaskUrlsPattern
 
   } = useAppSelector(selectFilters);
 
@@ -62,7 +73,7 @@ const Search = () => {
   };
 
   const handleOpenPreferredSearchModal = () => {
-    dispatch(toggleModal(true));
+    dispatch(setModal({ name: ModalType.PreferredSearch, isOpen: true}));
   }
 
   /**
@@ -76,29 +87,56 @@ const Search = () => {
     dispatch(handleDropdownChange({ option, name }));
   };
 
+  /**
+   * TODO: Add time widget. Ask business about it.
+   * TODO: Add "clear" icon/label to the date picker to make it easier to delete.
+   * 
+   * @param {*} type 
+   * @param {*} date 
+   */
   const handleDateChange = (type, date) => {
+    date = date == null ? null : date.getTime();
+
     if (type === 'start') {
-      dispatch(handleStartDateChange(date.getTime()));
+      dispatch(handleStartDateChange(date));
 
     } else {
-      dispatch(handleEndDateChange(date.getTime()));
+      dispatch(handleEndDateChange(date));
     }
   }
 
-  const handleSearch = () => {
-    dispatch(setActivePage(1));
+  /**
+   * The following formats are accepted:
+   * "1,2,3" or "1" or "1-" or "-10"
+   * 
+   * This regex will prevent the user from saving anything else while typing or copy/pasting.
+   * 
+   * @param {*} event 
+   */
+  const handleSelectedIdsChange = event => {
+    let clean = event.target.value.replace(/[^\d,-]/gm,'');
+    clean = clean.replace(/^,+/m, '');
+    clean = clean.replace(/,{2,}/g, ',');
 
-    dispatch(fetchTasks())
+    dispatch(handleIdChange(clean));
+  }
 
+  const handleSelectedUrlsChange = (e) => {
+    const urlsPattern = e.target.value
+                          .replace(/\,\s+|\,\,+/g, ",")
+                          .replace(/\r|\n|\s\s+/g, "");
+
+    dispatch(handleUrlsChange(urlsPattern));
   };
 
-/*   const colourOptions = [
-    { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
-    { value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
-    { value: 'purple', label: 'Purple', color: '#5243AA' },
-    { value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
-    { value: 'orange', label: 'Orange', color: '#FF8B00' }
-  ] */
+  const handleSearch = () => {
+    dispatch(setActivePage(1));
+    dispatch(fetchTasks())
+  };
+
+  const handleExcludeChange = (e) => {
+    dispatch(handleExcludeUrlsChange(e.target.checked));
+  };
 
   return (
     <>
@@ -109,9 +147,8 @@ const Search = () => {
           <div style={{ position: 'absolute', right: '0', marginRight: '15px', top: '70px' }}>
             <RefreshIcon onClick={handleResetFormFields}  className="h-5 w-5 text-gray-400 cursor-pointer" />
           </div>
-          <label className="block text-xs font-medium text-gray-700 mb-1 mt-2">
-            Translation Status
-          </label>
+          
+          <Label name="Translation Status" />
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
@@ -120,9 +157,7 @@ const Search = () => {
             options={statuses}
           />
 
-          <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-            Assignment Status
-          </label>
+          <Label name="Assignment Status" />
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
@@ -131,9 +166,7 @@ const Search = () => {
             options={assignmentStatuses}
           />
 
-          <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-            Translation Types
-          </label>
+          <Label name="Translation Types" />
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
@@ -142,9 +175,7 @@ const Search = () => {
             options={translationTypes}
           />
 
-          <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-            TAT Status
-          </label>
+          <Label name="TAT Status" />
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
@@ -153,9 +184,7 @@ const Search = () => {
             options={TATStatuses}
           />
 
-          <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-            Handling Flags
-          </label>
+          <Label name="Handling Flags"/>
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
@@ -163,15 +192,6 @@ const Search = () => {
             onChange={(option) => handleChange(option, "selectedFlag")}
             options={flags}
           />
-            {/* <Select
-              isMulti
-              name="colors"
-              value={[]}
-              options={colourOptions}
-              className="basic-multi-select"
-              classNamePrefix="select"
-            /> */}
-
 
           <div className="w-full border-t border-gray-300 my-5" />
 
@@ -185,34 +205,83 @@ const Search = () => {
             type="text"
             name="ids"
             id="ids"
+            value={selectedIds}
+            onChange={handleSelectedIdsChange}
             className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500
                        block w-full text-xs border-gray-300 rounded-md"
-            placeholder="1,2,3,4,5..."
+            placeholder="1,2,3... or 1-50  or 50-"
           />
 
           {/* Put this in a component */}
-          <label
-            htmlFor="urls"
-            className="block text-xs font-medium text-gray-700 mt-3"
-          >
-            Task Urls
-          </label>
-          <input
-            type="text"
-            name="urls"
-            id="urls"
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500
-                       block w-full text-xs border-gray-300 rounded-md"
-            placeholder="url1,url2,url3..."
-          />
+          <div>
+            <div className="flex justify-between items-baseline">
+              <div className="flex items-baseline">
+                <label
+                  htmlFor="urls"
+                  className="block text-xs font-medium text-gray-700 mt-3"
+                >
+                  Task Urls
+                </label>
+                <ReactTooltip id="urls-tooltip" place="right">
+                  <u><strong>Url Pattern Search Rules</strong></u><br />
 
-          <label className="block text-xs font-medium text-gray-700 mt-3">
-            Queue Start Date
-          </label>
-          
+                  1. ' OR ', ' AND ', and ' NOT ' must be capitalized, otherwise they will be<br />
+                  considered as part of the url pattern searched for.<br />
+                  2. ' OR ', ' AND ', and ' NOT ' must contain at least one space before and after as shown here<br />
+                  3. A comma ',' or a space ' ' means the same thing as ' OR '<br />
+                  4. Items can be grouped using '{"<"}' to start the group and '{">"}' to end the group.<br />
+                  Typically url patterns separated by ' OR ' will be grouped together.<br /><br />
+
+                  <u><strong>Url Pattern Search Examples</strong></u><br />
+                  http://www.testdomain.com/scuba/scuba-wetsuits/shorty-wetsuit/<br />
+                  http://www.testdomain.com/scuba/scuba-specialty-items/speargun/<br />
+                  http://www.testdomain.com/scuba/scuba-wetsuits/dive-boots/<br />
+                  http://www.testdomain.com/scuba/scuba-wetsuits/dive-gloves/<br />
+                  http://www.testdomain.com/scuba-diving/dive-alert-plus-standard-signaling-device/<br /><br />
+
+                  1. wetsuit<br />
+                  http://www.testdomain.com/scuba/scuba-<b>wetsuit</b>s/shorty-<b>wetsuit</b>/<br /><br />
+                  2. wetsuit AND shorty<br />
+                  http://www.testdomain.com/scuba/scuba-<b>wetsuit</b>s/<b>shorty</b>-<b>wetsuit</b>/<br /><br />
+
+                  3. boots OR gloves<br />
+                  http://www.testdomain.com/scuba/scuba-wetsuits/dive-<b>boots</b>/<br />
+                  http://www.testdomain.com/scuba/scuba-wetsuits/dive-<b>gloves</b>/<br /><br />
+
+                  4. boots gloves<br />
+                  http://www.testdomain.com/scuba/scuba-wetsuits/dive-<b>boots</b>/<br />
+                  http://www.testdomain.com/scuba/scuba-wetsuits/dive-<b>gloves</b>/<br /><br />
+
+                  5. {"<"}wetsuit AND gloves&gt OR &ltwetsuit AND boots{">"}<br />
+                  http://www.testdomain.com/scuba/scuba-<b>wetsuit</b>s/dive-<b>boots</b>/<br />
+                  http://www.testdomain.com/scuba/scuba-<b>wetsuit</b>s/dive-<b>gloves</b>/<br /><br />
+
+                  6. dive NOT gloves NOT signaling<br />
+                  http://www.testdomain.com/scuba/scuba-wetsuits/<b>dive</b>-boots/<br />
+                </ReactTooltip>
+                <QuestionMarkCircleIcon data-tip data-for="urls-tooltip" className="w-4 h-4 ml-1" />
+              </div>
+              <div className="flex">
+                <label htmlFor="excludeUrls" className="text-xs text-gray-700 font-medium mr-1">exclude</label>
+                <input type="checkbox" name="excludeUrls" onChange={handleExcludeChange} />
+              </div>
+            </div>
+            <input
+              type="text"
+              name="urls"
+              id="urls"
+              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500
+                       block w-full text-xs border-gray-300 rounded-md"
+              placeholder="url1,url2,url3..."
+              onChange={handleSelectedUrlsChange}
+              value={selectedTaskUrlsPattern}
+            />
+          </div>
+
+          <Label name="Queue Start Date" />
           <DatePicker
             selected={startQueueDate == null ? null : new Date(startQueueDate)}
-            showTimeSelect
+            shouldCloseOnSelect={true}
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full
                        text-xs border-gray-300 rounded-md p-2"
             onChange={(date) => handleDateChange('start', date)}
@@ -229,20 +298,16 @@ const Search = () => {
 
           {showMore ? (
             <>
-              <label className="block text-xs font-medium text-gray-700 mt-3">
-                Queue End Date
-              </label>
+              <Label name="Queue End Date"/>
               <DatePicker
                 selected={endQueueDate == null ? null : new Date(endQueueDate)}
-                showTimeSelect
+                shouldCloseOnSelect={true}
                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs
                          border-gray-300 rounded-md p-2"
                 onChange={(date) => handleDateChange('end', date)}
               />
 
-              <label className="block text-xs font-medium text-gray-700 mt-3">
-                Content Type
-              </label>
+              <Label name="Content Type"/>
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
@@ -253,9 +318,7 @@ const Search = () => {
                 options={contentTypes}
               />
 
-              <label className="block text-xs font-medium text-gray-700 mt-3">
-                Priority
-              </label>
+              <Label name="Priority"/>
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
@@ -264,9 +327,7 @@ const Search = () => {
                 options={priorities}
               />
 
-              <label className="block text-xs font-medium text-gray-700 mt-3">
-                Project Code
-              </label>
+              <Label name="Project Code"/>
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
@@ -275,12 +336,11 @@ const Search = () => {
                 options={projectCodes}
               />
 
-              <label className="block text-xs font-medium text-gray-700 mt-3">
-                Internal Reviewer
-              </label>
+              <Label name="Internal Reviewer"/>
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
+                menuPlacement={'top'}
                 value={selectedInternalReviewer}
                 onChange={(option) =>
                   handleChange(option, "selectedInternalReviewer")
@@ -288,17 +348,28 @@ const Search = () => {
                 options={internalReviewers}
               />
 
-              <label className="block text-xs font-medium text-gray-700 mt-3">
-                Requested By
-              </label>
+              <Label name="Requested By"/>
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
+                menuPlacement={'top'}
                 value={selectedRequestedBy}
                 onChange={(option) =>
                   handleChange(option, "selectedRequestedBy")
                 }
                 options={requestedBy}
+              />
+
+              <Label name="Pending Deletion"/>
+              <Select
+                maxMenuHeight={850}
+                styles={STANDARD_DROPDOWN_STYLES}
+                menuPlacement={'top'}
+                value={selectedPendingDeletionStatus}
+                onChange={(option) =>
+                  handleChange(option, "selectedPendingDeletionStatus")
+                }
+                options={pendingDeletionStatuses}
               />
             </>
           ) : null}
@@ -310,7 +381,8 @@ const Search = () => {
           type="button"
           className="mr-3 inline-flex items-center px-2.5 py-1.5 border
                    border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700
-                    bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                   bg-white hover:bg-gray-50 focus:outline-none focus:ring-2
+                     focus:ring-offset-2 focus:ring-blue-500"
         >
           Add Pref Search
         </button>
@@ -319,7 +391,8 @@ const Search = () => {
           type="button"
           className="inline-flex items-center px-4 py-1.5 border border-transparent
                      text-xs font-medium rounded shadow-sm text-white bg-blue-600
-                     hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    hover:bg-blue-700 focus:outline-none focus:ring-2
+                     focus:ring-offset-2 focus:ring-blue-500"
         >
           Search
         </button>

@@ -6,7 +6,7 @@ export const DEV_SERVER_BASE_URL = 'http://localhost:3000/#/login';
 
 
 export const STANDARD_DROPDOWN_STYLES = { 
-    control: (provided) => ({
+    control: (provided: any) => ({
         ...provided,
         padding: '0px',
         borderColor: '#cbd3da',
@@ -16,25 +16,25 @@ export const STANDARD_DROPDOWN_STYLES = {
         minHeight: '',
         maxHeight: '35px'
     }),
-    placeholder: (provided) => ({
+    placeholder: (provided: any) => ({
         ...provided,
         fontSize: '12px'
     }),
-    dropdownIndicator: (provided) => ({
+    dropdownIndicator: (provided: any) => ({
         ...provided,
         padding: '1px'
     }),
-    singleValue: (provided) => ({
+    singleValue: (provided: any) => ({
         ...provided,
         fontSize: '12px'
     }),
-    option: (provided) => ({
+    option: (provided: any) => ({
         ...provided,
         fontSize: '12px',
         paddingBottom: '5px',
         paddingTop: '5px'
       }),
-      groupHeading: (provided) => ({
+      groupHeading: (provided: any) => ({
         ...provided,
         background: '#f2f4f7',
         paddingTop: '5px',
@@ -43,14 +43,14 @@ export const STANDARD_DROPDOWN_STYLES = {
 };
 
 export const STANDARD_MULTI_DROPDOWN_STYLES = {
-    control: (provided) => ({
+    control: (provided: any) => ({
         ...provided,
         borderColor: '#cbd3da',
         '&:hover': {
             borderColor: '#a2a8ae'
         }
     }),
-    valueContainer: (provided, state) => ({
+    valueContainer: (provided: any, state: any) => ({
       ...provided,
       textOverflow: "ellipsis",
       maxWidth: "90%",
@@ -58,16 +58,16 @@ export const STANDARD_MULTI_DROPDOWN_STYLES = {
       overflow: "hidden",
       display: "initial"
     }),
-    placeholder: (provided) => ({
+    placeholder: (provided: any) => ({
         ...provided,
         fontSize: '12px'
     }),
-    multiValueLabel: (styles) => ({
+    multiValueLabel: (styles: any) => ({
         ...styles,
         color: 'rgb(0, 184, 217)',
         backgroundColor: '#e5f7fb',
     }),
-    multiValueRemove: (styles) => ({
+    multiValueRemove: (styles: any) => ({
         ...styles,
         color: 'rgb(0, 184, 217)',
         backgroundColor: '#e5f7fb',
@@ -76,26 +76,19 @@ export const STANDARD_MULTI_DROPDOWN_STYLES = {
           color: 'white',
         },
     }),
-    option: (provided) => ({
+    option: (provided: any) => ({
         ...provided,
         fontSize: '12px',
         paddingBottom: '5px',
         paddingTop: '5px'
       }),
-      groupHeading: (provided) => ({
+      groupHeading: (provided: any) => ({
         ...provided,
         background: '#f2f4f7',
         paddingTop: '5px',
         paddingBottom: '5px'
     })
 }
-
-export const FORMAT_GROUP_LABEL = data => (
-    <div style={groupStyles}>
-      <span>{data.label}</span>
-      <span style={groupBadgeStyles}>{data.options.length}</span>
-    </div>
-);
 
 export const PAGE_SIZE_OPTIONS = [
     { value: 50, label: 'Show 50' },
@@ -104,13 +97,13 @@ export const PAGE_SIZE_OPTIONS = [
     { value: 200, label: 'Show 200' }
 ]
 
-const groupStyles = {
+export const groupStyles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between"
 };
 
-const groupBadgeStyles = {
+export const groupBadgeStyles = {
     backgroundColor: "#EBECF0",
     borderRadius: "2em",
     color: "#172B4D",

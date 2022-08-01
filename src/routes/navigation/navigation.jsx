@@ -60,8 +60,8 @@ const Navigation = () => {
                     >
                       Tasks
                     </Link> */}
-                    <div className="w-48 mt-2 ml-8">
-                       {/*  <Select 
+                    <div className="mt-2 ml-8">
+                       {/*  <Select
                             maxMenuHeight={160}
                             styles={STANDARD_DROPDOWN_STYLES}
                             value={1}
@@ -72,7 +72,7 @@ const Navigation = () => {
                           {tpmSession.project.name} - {tpmSession.project.sourceLanguage.code} - {tpmSession.project.targetLanguage.name}
 
                           {tpmSession.project.targetCountry
-                             && tpmSession.project.targetCountry.name 
+                             && tpmSession.project.targetCountry.name
                                 ? ` - ${tpmSession.project.targetCountry.name}` : ''}
                         </div>
                     </div>

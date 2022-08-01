@@ -1,6 +1,9 @@
 
-//TODO: This should be fetch from the backend instead of hardcoding here. Create a new endpoint specific to this screen where you can get all
-// form information needed for first load.
+//TODO: Some of the data in here should be fetched from our API.
+// Create a new endpoint specific to this screen where you can get all
+// form information needed for first load. ONly get the data that is needed, not all of it. Some of the data is behind a "Show more" link
+//you can have a separate endpoint for that.
+
 export const statuses = [
     { value: -1, label: "All" },
     { value: 1, label: "New" },
@@ -9,12 +12,10 @@ export const statuses = [
     { value: 5, label: "Active" }
 ];
   
-export const assignmentStatuses = [
+export let assignmentStatuses = [
     { value: -2, label: "All" },
     { value: -1, label: "Assigned" },
-    { value: 0, label: "Not Assigned" },
-    { value: 1, label: "Pro Translating" },
-    { value: 2, label: "MLG International" }
+    { value: 0, label: "Not Assigned" }
 ];
 
 export const translationTypes = [
@@ -84,3 +85,9 @@ export const requestedBy = [
     { value: 2, label: "User 2" },
     { value: 3, label: "User 3" }
 ]
+
+export const pendingDeletionStatuses = [
+    { value: 0, label: "Show" },
+    { value: 1, label: "Hide" },
+    { value: 2, label: "Only" }
+] 

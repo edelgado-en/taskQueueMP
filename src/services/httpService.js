@@ -14,8 +14,8 @@ axios.interceptors.request.use((config) => {
         const tpmSession = loadTextBenchSession();
         
         if (tpmSession) {
-            //do not include queue as a header for QueueEndpoint
-            if (config.url.includes('/queues/')) {
+            //do not include queue as a header for QueueEndpoint and UserEndpoint
+            if (config.url.includes('/queues/') || config.url.includes('/users/')) {
                 config.headers = {
                     'Authorization': tpmSession.token,
                     'X-MotionCore-UserName': tpmSession.userName

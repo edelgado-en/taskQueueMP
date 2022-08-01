@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Home = lazy(() => import('./routes/home/home'));
 const Dashboard = lazy(() => import('./routes/dashboard/Dashboard'));
+const JobApiDashboard = lazy(() => import('./routes/jobApi/JobApiDashboard'));
 
 const redirectUrl = process.env.NODE_ENV === 'production' ? CONTROL_CENTER_LOGIN_URL : '/#/login';
 
@@ -48,12 +49,15 @@ const App = () => {
         <div className="flex flex-col min-h-screen">
           <div className="flex-grow">
             <Routes>
+              {/* ### TODO: WRAP THIS IN DEV  */}
               <Route path="/login" element={<Login />} />
+              {/* ######################## */}
               
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Navigation />}>
                     <Route index element={<Home />} />
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/job-api" element={<JobApiDashboard />} />
                 </Route>
               </Route>
             

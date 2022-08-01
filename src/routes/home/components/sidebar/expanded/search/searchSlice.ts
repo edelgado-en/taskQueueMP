@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../../../../app/store";
 import { statuses, assignmentStatuses, translationTypes,
-     TATStatuses, flags, contentTypes,
-      priorities, projectCodes, internalReviewers, requestedBy
+    TATStatuses, flags, contentTypes,
+    priorities, projectCodes, internalReviewers,
+    requestedBy, pendingDeletionStatuses
 } from './dropdown-data';
 
 export interface DropdownOption {
@@ -36,9 +37,14 @@ interface SearchState {
     selectedInternalReviewer: DropdownOption,
     requestedBy: Array<DropdownOption>,
     selectedRequestedBy: DropdownOption,
+    pendingDeletionStatuses: Array<DropdownOption>,
+    selectedPendingDeletionStatus: DropdownOption,
     startQueueDate: number | null, //save it as timestamp because Date objects are not serializable
     endQueueDate: number | null,
-    seoMode: boolean
+    seoMode: boolean,
+    selectedIds: string, //this is a string because it can have the following formats: "1,2,3" or "1" or "1-" or "-10"
+    selectedTaskUrlsPattern: string,
+    excludeUrls: boolean
 }
 
 const initialState: SearchState = {
@@ -61,10 +67,15 @@ const initialState: SearchState = {
     selectedProjectCode: projectCodes[0],
     selectedInternalReviewer: internalReviewers[0],
     selectedRequestedBy: requestedBy[0],
+    pendingDeletionStatuses,
+    selectedPendingDeletionStatus: pendingDeletionStatuses[1],
     selectedFlag: flags[0],
     startQueueDate: null,
     endQueueDate: null,
-    seoMode: false
+    seoMode: false,
+    selectedIds: '',
+    selectedTaskUrlsPattern: '',
+    excludeUrls: false
 }
 
 export const searchSlice = createSlice({
@@ -86,6 +97,22 @@ export const searchSlice = createSlice({
             state.endQueueDate = action.payload;
         },
 
+        handleUpdateAssignmentStatuses: (state, action: PayloadAction<Array<DropdownOption>>) => {
+            state.assignmentStatuses.push(...action.payload);
+        },
+
+        handleIdChange: (state, action: PayloadAction<string>) => {
+            state.selectedIds = action.payload;
+        },
+
+        handleUrlsChange: (state, action: PayloadAction<string>) => {
+            state.selectedTaskUrlsPattern = action.payload;
+        },
+
+        handleExcludeUrlsChange: (state, action: PayloadAction<boolean>) => {
+            state.excludeUrls = action.payload;
+        },
+
         resetAllFields: (state) => {
             return initialState;
         }
@@ -96,7 +123,11 @@ export const {
     handleDropdownChange,
     resetAllFields,
     handleStartDateChange,
-    handleEndDateChange
+    handleEndDateChange,
+    handleUpdateAssignmentStatuses,
+    handleIdChange,
+    handleUrlsChange,
+    handleExcludeUrlsChange
 
 } = searchSlice.actions;
 

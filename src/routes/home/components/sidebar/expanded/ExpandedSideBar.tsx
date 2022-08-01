@@ -11,6 +11,8 @@ import { selectActiveTab, setActiveTab, Tab } from "../sideBarSlice";
 import { selectSidebarOpen, handleSidebarOpenChange } from "./settings/settingsSlice";
 import { useAppSelector, useAppDispatch } from "../../../../../app/hooks";
 
+import { selectIsAnyModelOpen } from '../../../../../components/modal/modalSlice';
+
 import LSPDashboard from "./lsp/LspDashboard";
 import UserStats from "./user/UserStats";
 import Search from "./search/SearchFilters";
@@ -44,6 +46,7 @@ const ExpandedSideBar = () => {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector(selectActiveTab);
   const sidebarOpen = useAppSelector(selectSidebarOpen);
+  const isAnyModalOpen = useAppSelector(selectIsAnyModelOpen);
 
   const handleSetActiveTab = (tab: Tab) => {
     dispatch(setActiveTab(tab));
@@ -54,7 +57,10 @@ const ExpandedSideBar = () => {
   };
 
   return (
-    <div className="fixed bg-gray-100 min-h-screen flex-col z-50 border-r-2 p-3 w-64 h-full">
+    <>
+    {isAnyModalOpen && <div className="fixed bg-gray-500 min-h-screen flex-col z-50 border-r-2 p-3 w-64 h-full bg-opacity-75 transition-opacity opacity-100"></div>}
+    
+    <div className="fixed bg-gray-100 min-h-screen flex-col z-30 border-r-2 p-3 w-64 h-full">
       <div className="flex flex-row h-[4%]">
         <div className="basis-[90%]">
           <div className="border-b border-gray-200">
@@ -108,6 +114,7 @@ const ExpandedSideBar = () => {
       {activeTab === Tab.PreferredSearch && <PreferredSearch />}
 
     </div>
+    </>
   );
 };
 
